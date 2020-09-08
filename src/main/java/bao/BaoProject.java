@@ -1,5 +1,6 @@
 package bao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,13 @@ import modal.ResultsMessage;
 
 public class BaoProject {
 	ResultsMessage rsmess = new ResultsMessage();
+
+	public List<GetProject> getAllProjectFirt(boolean getall){
+		return new DaoProject().getAllProject(true, null, getall, null, null, null, null, null, null);
+	}
 	
-	public List<GetProject> getAllProject(boolean getall){
-		return new DaoProject().getAllProject(null, getall);
+	public List<GetProject> getAllProject(String id, boolean getall, String type_id, String department_id, String branch_id, String name, LocalDate date1, LocalDate date2){
+		return new DaoProject().getAllProject(false , null, getall, type_id, department_id, branch_id, name, date1, date2);
 	}
 	
 	public GetProject getGProjectFromID(String id, boolean getall) {

@@ -24,11 +24,18 @@ public class DaoProject {
 		GetProject getPro = new GetProject();
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_project1(?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_project1(?,?,?,?,?,?,?,?,?)}")
 			)
 		{
-			cs.setString(1, id);
-			cs.setBoolean(2, getall);
+			cs.setBoolean(1, getall);
+			cs.setString(2, id);
+			cs.setBoolean(3, getall);
+			cs.setString(4, null);
+			cs.setString(5, null);
+			cs.setString(6, null);
+			cs.setNString(7, null);
+			cs.setDate(8, null);
+			cs.setDate(9, null);
 			cs.executeQuery();
 			ResultSet rs = cs.getResultSet();
 			rs.next();
@@ -50,14 +57,25 @@ public class DaoProject {
 		return getPro;
 	}
 	
-	public List<GetProject> getAllProject(String id, boolean getall){
+	public List<GetProject> getAllProject(boolean firtLoad, String id, boolean getall, String type_id, String department_id, String branch_id, String name, LocalDate date1, LocalDate date2){
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_project1(?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_project1(?,?,?,?,?,?,?,?,?)}")
 			)
 		{
-			cs.setString(1, id);
-			cs.setBoolean(2, getall);
+			Date date01 = java.sql.Date.valueOf(date1);
+			Date date02 = java.sql.Date.valueOf(date2);
+			
+			cs.setBoolean(1, getall);
+			cs.setString(2, id);
+			cs.setBoolean(3, getall);
+			cs.setString(4, type_id);
+			cs.setString(5, department_id);
+			cs.setString(6, branch_id);
+			cs.setNString(7, name);
+			cs.setDate(8,(java.sql.Date) date01);
+			cs.setDate(9,(java.sql.Date) date02);
+			
 			cs.executeQuery();
 			ResultSet rs = cs.getResultSet();
 			while(rs.next()) {

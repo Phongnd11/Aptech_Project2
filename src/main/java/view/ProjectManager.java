@@ -157,6 +157,9 @@ public class ProjectManager extends JInternalFrame {
 //		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
 //		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
 //		}
+		
+//		loadtable
+		firtLoad();
 	}
 
 	private void loadListToTable() {
@@ -177,7 +180,9 @@ public class ProjectManager extends JInternalFrame {
 		defaultTable.addColumn("Type");
 		defaultTable.addColumn("Department");
 		defaultTable.addColumn("Branch");
+		
 		i=0;
+		
 		for(GetProject pro : list) {
 			defaultTable.addRow(new Object[] {
 				++i, pro.getId(), pro.getName(), pro.getDate(), pro.getDescription(), pro.isStatus() ? true:false, 						
@@ -221,15 +226,21 @@ public class ProjectManager extends JInternalFrame {
 				++i, pro.getId(), pro.getName(), pro.getDate(), pro.getDescription(), pro.isStatus() ? true:false, 						
 						pro.getType_name(), pro.getDepartment_name(), pro.getBranch_name()
 		});
-		
     }
 
-	
-	protected void btnLoadActionPerformed(ActionEvent e) {
-		list = new BaoProject().getAllProject(false);
+    protected void firtLoad() {
+		list = new BaoProject().getAllProjectFirt(false);
 		loadListToTable();
 	}
-
+	
+    public void loadListToTable(List<GetProject> list) {
+    	this.list = list;
+    	loadListToTable();
+    }
+    
+	protected void btnLoadActionPerformed(ActionEvent e) {
+		new Sys_FrameLoadProject(this).setVisible(true);
+	}
 
 	private void createPopupMenu() {
 		mntmReload = new JMenuItem("Load Data");
@@ -385,6 +396,7 @@ public class ProjectManager extends JInternalFrame {
 	}
 	
 	private void clearFind() {
-    	txtFilter.setText("");
+    	txtFilter.setText("Search");
+		txtFilter.setForeground(Color.GRAY);
     }
 }
