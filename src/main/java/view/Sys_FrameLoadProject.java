@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListDataEvent;
 
 import bao.BaoGetComboBox;
 import bao.BaoPosition;
@@ -53,6 +54,7 @@ public class Sys_FrameLoadProject extends JFrame {
 	private JLabel lblId;
 	private List<ComboItem> listCB;
 	private List<ComboItem> listCB2;
+	private List<ComboItem> listCB3;
 	private JDateChooser calDate1;
 	private JLabel txt;
 	private JCheckBox chkStatus;
@@ -109,24 +111,31 @@ public class Sys_FrameLoadProject extends JFrame {
 		lblId = new JLabel("Project Id");
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
+		Date now = new Date();
+		Date now1 = new Date();
+		now1.setDate(1);
+		
 		calDate1 = new JDateChooser();
 		calDate1.setDateFormatString("yyyy-MM-dd");
-		calDate1.setDate(new Date());
+		calDate1.setDate(now1);
 		
 		txt = new JLabel("Date 1");
 		txt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		chkStatus = new JCheckBox("Get status is false");
-		chkStatus.setVisible(false);
+//		chkStatus.setVisible(false);
 		
 		lblDate = new JLabel("Date 2");
 		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		calDate2 = new JDateChooser();
+		calDate2.setDateFormatString("yyyy-MM-dd");
+		calDate2.setDate(now);
 		
 		lblNewLabel_2 = new JLabel("Branch");
 		
 		cbBranch = new JComboBox();
+		comboBoxSetValue3();
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -222,6 +231,7 @@ public class Sys_FrameLoadProject extends JFrame {
 	
 	private void comboBoxSetValue() {
 		listCB = new BaoGetComboBox().getList("ProjectType");
+		cbType.addItem(new ComboItem(null, "Empty"));
 		for (ComboItem item :listCB) {
 			cbType.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -229,8 +239,17 @@ public class Sys_FrameLoadProject extends JFrame {
 	
 	private void comboBoxSetValue2() {
 		listCB2 = new BaoGetComboBox().getList("Department");
+		cbDepartment.addItem(new ComboItem(null, "Empty"));
 		for (ComboItem item :listCB2) {
 			cbDepartment.addItem(new ComboItem(item.getId(), item.getValue()));
+		}
+	}
+	
+	private void comboBoxSetValue3() {
+		listCB3 = new BaoGetComboBox().getList("Branch");
+		cbBranch.addItem(new ComboItem(null, "Empty"));
+		for (ComboItem item :listCB3) {
+			cbBranch.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
 	}
 	
@@ -239,9 +258,17 @@ public class Sys_FrameLoadProject extends JFrame {
 	}
 	
 	protected void do_btnNewButton_actionPerformed(ActionEvent e) {
-		LocalDate date1 = calDate1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate date2 = calDate2.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		List<GetProject> list = new BaoProject().getAllProject(txtId.getText(), chkStatus.isSelected(), ((ComboItem) cbType.getSelectedItem()).getId() , ((ComboItem) cbDepartment.getSelectedItem()).getId(), ((ComboItem) cbBranch.getSelectedItem()).getId(), txtProName.getText(), date1, date2);
-		pm.loadListToTable(list);
+		LocalDate date1 = calDate1.getDate() == null ? null : calDate1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate date2 = calDate2.getDate() == null ? null : calDate2.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+		List<GetProject> list = new BaoProject().getAllProject(txtId.getText(), chkStatus.isSelected(), 
+				((ComboItem) cbType.getSelectedItem()).getId() , ((ComboItem) cbDepartment.getSelectedItem()).getId(), 
+				((ComboItem) cbBranch.getSelectedItem()).getId(), txtProName.getText(), date1, date2);
+		if(list.isEmpty()) {
+			new ResultsMessage(0,"No result!").showMessage(this);
+		} else {
+			pm.loadListToTable(list);
+			this.dispose();
+		}	
 	}
 }

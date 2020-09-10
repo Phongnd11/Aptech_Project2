@@ -36,7 +36,7 @@ public class ResultsMessage {
 			if(jframe != null) {
 				jframe.dispose();
 			}
-		}else if (this.num < 0){
+		}else if (this.num == 0){
 			JOptionPane.showMessageDialog(jframe, message, "ERROR", JOptionPane.ERROR_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(jframe,"There was an abnormal error during execution!", "ERROR", JOptionPane.ERROR_MESSAGE);

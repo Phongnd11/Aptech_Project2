@@ -21,6 +21,7 @@ public class ComboItem {
 
     @Override
     public String toString() {
-        return "["+id+"] - "+value;
+        
+        	return id==null ? value : "["+id+"] - "+ value;
     }
 }

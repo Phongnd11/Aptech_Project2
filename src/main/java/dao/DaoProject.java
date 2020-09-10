@@ -24,10 +24,10 @@ public class DaoProject {
 		GetProject getPro = new GetProject();
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_project1(?,?,?,?,?,?,?,?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_project(?,?,?,?,?,?,?,?,?)}")
 			)
 		{
-			cs.setBoolean(1, getall);
+			cs.setBoolean(1, false);
 			cs.setString(2, id);
 			cs.setBoolean(3, getall);
 			cs.setString(4, null);
@@ -60,19 +60,20 @@ public class DaoProject {
 	public List<GetProject> getAllProject(boolean firtLoad, String id, boolean getall, String type_id, String department_id, String branch_id, String name, LocalDate date1, LocalDate date2){
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_project1(?,?,?,?,?,?,?,?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_project(?,?,?,?,?,?,?,?,?)}")
 			)
 		{
-			Date date01 = java.sql.Date.valueOf(date1);
-			Date date02 = java.sql.Date.valueOf(date2);
 			
-			cs.setBoolean(1, getall);
+			Date date01 = date1==null ? null : java.sql.Date.valueOf(date1);
+			Date date02 = date2==null ? null : java.sql.Date.valueOf(date2);
+			
+			cs.setBoolean(1, firtLoad);
 			cs.setString(2, id);
 			cs.setBoolean(3, getall);
 			cs.setString(4, type_id);
 			cs.setString(5, department_id);
 			cs.setString(6, branch_id);
-			cs.setNString(7, name);
+			cs.setString(7, name);
 			cs.setDate(8,(java.sql.Date) date01);
 			cs.setDate(9,(java.sql.Date) date02);
 			
@@ -85,43 +86,13 @@ public class DaoProject {
 			}
 		} catch (Exception e) {
 			e.getMessage();
-			JOptionPane.showMessageDialog(null, "Fail: "  +e.toString(),"Error",JOptionPane.ERROR_MESSAGE);
+//			JOptionPane.showMessageDialog(null, "Fail: "  +e.toString(),"Error",JOptionPane.ERROR_MESSAGE);
+			new ResultsMessage(-1,e.toString()).showMessage(null);
 		}
 	
 		return list;
 	}
-	
-	public List<GetProject> getAllProject(String id, String name, String project_type_id, LocalDate newdate1, LocalDate newdate2, String department_id, String branch_id,  boolean getall){
-		try (
-				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_project(?,?,?,?,?,?,?,?)}")
-			)
-		{
-			Date date1 = java.sql.Date.valueOf(newdate1);
-			Date date2 = java.sql.Date.valueOf(newdate2);
-			
-			cs.setString(1, id);
-			cs.setNString(2, name);
-			cs.setString(3, project_type_id);
-			cs.setDate(4, (java.sql.Date) date1);
-			cs.setDate(5, (java.sql.Date) date2);
-			cs.setNString(6, department_id);
-			cs.setNString(7, branch_id);
-			cs.setBoolean(8, getall);
-			cs.executeQuery();
-			ResultSet rs = cs.getResultSet();
-			while(rs.next()) {
-				list.add(new GetProject(rs.getNString("id"), rs.getNString("name"), rs.getDate("datenew") == null ? null : rs.getDate("datenew").toLocalDate(), rs.getString("description"), rs.getBoolean("status"), 
-						rs.getString("type_name"), rs.getString("department_name"), rs.getString("branch_name")));
-				
-			}
-		} catch (Exception e) {
-			e.getMessage();
-			JOptionPane.showMessageDialog(null, "Fail: "  +e.toString(),"Error",JOptionPane.ERROR_MESSAGE);
-		}
-		return list;
-	}
-	
+
 	public Project getFromID(String id){
 		Project project = new Project();
 		String sql = "SELECT * FROM project WHERE id ='"+ id + "'";
@@ -143,7 +114,7 @@ public class DaoProject {
 			}
 			
 		} catch (Exception e) {
-			rsmess = new ResultsMessage(-1,e.getMessage());
+			new ResultsMessage(-1,e.getMessage()).showMessage(null);
 		}
 		return project;
 	}
