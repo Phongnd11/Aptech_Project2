@@ -63,6 +63,7 @@ public class Sys_FrameLoadProject extends JFrame {
 	private JDateChooser calDate2;
 	private JLabel lblNewLabel_2;
 	private JComboBox cbBranch;
+	private String userLoginID;
 
 
 	public Sys_FrameLoadProject(ProjectManager pm) {
@@ -230,7 +231,7 @@ public class Sys_FrameLoadProject extends JFrame {
 	}
 	
 	private void comboBoxSetValue() {
-		listCB = new BaoGetComboBox().getList("ProjectType");
+		listCB = new BaoGetComboBox().getList("ProjectType", userLoginID);
 		cbType.addItem(new ComboItem(null, "Empty"));
 		for (ComboItem item :listCB) {
 			cbType.addItem(new ComboItem(item.getId(), item.getValue()));
@@ -238,7 +239,7 @@ public class Sys_FrameLoadProject extends JFrame {
 	}
 	
 	private void comboBoxSetValue2() {
-		listCB2 = new BaoGetComboBox().getList("Department");
+		listCB2 = new BaoGetComboBox().getList("Department", userLoginID);
 		cbDepartment.addItem(new ComboItem(null, "Empty"));
 		for (ComboItem item :listCB2) {
 			cbDepartment.addItem(new ComboItem(item.getId(), item.getValue()));
@@ -246,7 +247,7 @@ public class Sys_FrameLoadProject extends JFrame {
 	}
 	
 	private void comboBoxSetValue3() {
-		listCB3 = new BaoGetComboBox().getList("Branch");
+		listCB3 = new BaoGetComboBox().getList("Branch", userLoginID);
 		cbBranch.addItem(new ComboItem(null, "Empty"));
 		for (ComboItem item :listCB3) {
 			cbBranch.addItem(new ComboItem(item.getId(), item.getValue()));

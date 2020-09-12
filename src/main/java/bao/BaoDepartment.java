@@ -16,7 +16,11 @@ public class BaoDepartment {
 	}
 	
 	public List<Department> getall(boolean getall){
-		return new DaoDepartment().getall(getall);
+		return new DaoDepartment().getall(null, getall);
+	}
+	
+	public List<Department> getFromBranch(String branch_id){
+		return new DaoDepartment().getall(branch_id,false);
 	}
 	
 	public ResultsMessage insert(Department obj) {

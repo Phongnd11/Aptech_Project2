@@ -48,9 +48,7 @@ public class Department {
 
 	@Override
 	public String toString() {
-		return "Department [id=" + id + ", name=" + name + ", branch_id=" + branch_id + ", status=" + status + "]";
+		return "[" + id + "] - " + name ;
 	}
-	
-	
 	
 }

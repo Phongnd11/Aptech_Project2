@@ -25,6 +25,7 @@ public class DaoBranch {
 				var resultSet = stmt.executeQuery(sql);
 				)
 		{
+			resultSet.next();
 			bra.setId(resultSet.getString("id"));
 			bra.setName(resultSet.getNString("name"));
 			bra.setStatus(resultSet.getBoolean("status"));
@@ -34,14 +35,15 @@ public class DaoBranch {
 		return bra;
 	}
 	
-	public List<Branch> getall(boolean getall) {
+	public List<Branch> getall(String userLoginID, boolean getall) {
 		
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_branch_get(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_branch(?,?)}")
 			)
 		{
-			cs.setBoolean(1, getall);
+			cs.setString(1, userLoginID);
+			cs.setBoolean(2, getall);
 			cs.executeQuery();
 			ResultSet resultSet = cs.getResultSet();
 			while(resultSet.next()) {

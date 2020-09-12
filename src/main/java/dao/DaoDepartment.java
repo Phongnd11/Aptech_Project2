@@ -34,13 +34,14 @@ public class DaoDepartment {
 		return dep;
 	}
 	
-	public List<Department> getall(boolean status) {
+	public List<Department> getall(String branch_id, boolean status) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_position(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_department(?,?)}")
 				)
 		{
-			cs.setBoolean(1, status);
+			cs.setString(1, branch_id);
+			cs.setBoolean(2, status);
 			cs.executeQuery();
 			ResultSet resultSet = cs.getResultSet();
 			while(resultSet.next()) {

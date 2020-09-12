@@ -65,6 +65,7 @@ public class AddProject extends JFrame {
 	private JCheckBox chkStatus;
 	private ProjectManager pm;
 	private int indexParent;
+	private String userLoginID;
 
 
 	public AddProject(int type, String id, ProjectManager pm, int indexParent) {
@@ -227,14 +228,14 @@ public class AddProject extends JFrame {
 	}
 	
 	private void comboBoxSetValue() {
-		listCB = new BaoGetComboBox().getList("ProjectType");
+		listCB = new BaoGetComboBox().getList("ProjectType", userLoginID);
 		for (ComboItem item :listCB) {
 			cbType.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
 	}
 	
 	private void comboBoxSetValue2() {
-		listCB2 = new BaoGetComboBox().getList("Department");
+		listCB2 = new BaoGetComboBox().getList("Department", userLoginID);
 		for (ComboItem item :listCB2) {
 			cbDepartment.addItem(new ComboItem(item.getId(), item.getValue()));
 		}

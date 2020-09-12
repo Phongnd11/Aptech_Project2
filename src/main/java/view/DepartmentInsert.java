@@ -41,6 +41,7 @@ public class DepartmentInsert extends JFrame {
 	public JComboBox cbBranch;
 	public List<ComboItem> listCB;
 	private JButton btnNew;
+	private String userLoginID;
 
 	/**
 	 * Launch the application.
@@ -172,7 +173,7 @@ public class DepartmentInsert extends JFrame {
 	}
 	
 	public void comboBoxSetValue() {
-		listCB = new BaoGetComboBox().getList("Branch");
+		listCB = new BaoGetComboBox().getList("Branch", userLoginID);
 		for (ComboItem item :listCB) {
 			cbBranch.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -194,6 +195,6 @@ public class DepartmentInsert extends JFrame {
 	}
 	
 	protected void do_btnNew_actionPerformed(ActionEvent e) {
-		new BranchInsert(1, this).setVisible(true);
+		new AddBranch(1,null, this, null,0).setVisible(true);
 	}
 }

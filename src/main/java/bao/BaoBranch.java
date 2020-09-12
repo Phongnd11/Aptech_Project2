@@ -9,12 +9,12 @@ import modal.ResultsMessage;
 public class BaoBranch {
 	ResultsMessage rsmess = new ResultsMessage();
 	
-	public Branch getfromId(String id) {
+	public Branch getFromId(String id) {
 		return new DaoBranch().getfromId(id);
 	}
 	
-	public List<Branch> getall(boolean getall){
-		return new DaoBranch().getall(getall);
+	public List<Branch> getAll(String userLoginId, boolean getall){
+		return new DaoBranch().getall(userLoginId, getall);
 	}
 	
 	public ResultsMessage insert(Branch obj) {
@@ -26,4 +26,5 @@ public class BaoBranch {
 	public ResultsMessage delete(String id) {
 		return new DaoBranch().delete(id);
 	}
+
 }

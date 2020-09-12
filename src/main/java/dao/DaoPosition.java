@@ -28,6 +28,8 @@ public class DaoPosition {
 			pos.setId(resultSet.getString("id"));
 			pos.setName(resultSet.getNString("name"));
 			pos.setStatus(resultSet.getBoolean("status"));
+			pos.setListBranch(resultSet.getString("listBranch"));
+			pos.setListDepartment(resultSet.getString("listDepartment"));
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());
 		}
@@ -44,7 +46,8 @@ public class DaoPosition {
 			cs.executeQuery();
 			ResultSet resultSet = cs.getResultSet();
 			while(resultSet.next()) {
-				list.add(new Position(resultSet.getString("id"), resultSet.getNString("name"), resultSet.getBoolean("status")));
+				list.add(new Position(resultSet.getString("id"), resultSet.getNString("name"), resultSet.getBoolean("status"), resultSet.getString("listBranch"),
+						resultSet.getNString("listDepartment"), resultSet.getNString("branch_id")));
 			}
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());
@@ -55,12 +58,15 @@ public class DaoPosition {
 	public ResultsMessage insert(Position obj) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_position_insert(?,?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_position_insert(?,?,?,?,?,?)}")
 			)
 		{
 			cs.setString(1, obj.getId());
 			cs.setString(2, obj.getName());
 			cs.setBoolean(3, obj.isStatus());
+			cs.setString(4, obj.getListBranch());
+			cs.setString(5, obj.getListDepartment());
+			cs.setNString(6, obj.getBranch_id());
 			rsmess = new ResultsMessage(cs.executeUpdate(),"Success!");
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());
@@ -71,12 +77,15 @@ public class DaoPosition {
 	public ResultsMessage update(Position obj) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_position_update(?,?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_position_update(?,?,?,?,?,?)}")
 			)
 		{
 			cs.setString(1, obj.getId());
 			cs.setString(2, obj.getName());
 			cs.setBoolean(3, obj.isStatus());
+			cs.setString(4, obj.getListBranch());
+			cs.setString(5, obj.getListDepartment());
+			cs.setNString(6, obj.getBranch_id());
 			rsmess = new ResultsMessage(cs.executeUpdate(),"Success!");
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());

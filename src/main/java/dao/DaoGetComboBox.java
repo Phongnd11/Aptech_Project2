@@ -13,15 +13,16 @@ import modal.ResultsMessage;
 public class DaoGetComboBox {
 	ResultsMessage rsmess = new ResultsMessage();
 	
-	public List<ComboItem> getCB(boolean getall, String param) {
+	public List<ComboItem> getCB(boolean getall, String param, String userLoginID) {
 		List<ComboItem> listCB = new ArrayList<ComboItem>();
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_getCB(?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_getCB(?,?,?)}")
 			)
 		{
 			cs.setBoolean(1, getall);
 			cs.setString(2, param);
+			cs.setString(3, userLoginID);
 			cs.executeQuery();
 			ResultSet resultSet = cs.getResultSet();
 			while(resultSet.next()) {

@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import bao.BaoBranch;
 import bao.BaoPosition;
 import entity.Branch;
+import entity.CurrentUser;
 import entity.Position;
 
 import javax.swing.GroupLayout;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class AdminBranch extends JFrame {
+public class Admin extends JFrame {
 
 	private JPanel contentPane;
 	private JDesktopPane desktopPane;
@@ -83,7 +84,7 @@ public class AdminBranch extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminBranch frame = new AdminBranch();
+					Admin frame = new Admin(null);
 					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -96,7 +97,7 @@ public class AdminBranch extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdminBranch() {
+	public Admin(CurrentUser cuser) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1920, 1080);
 		contentPane = new JPanel();
