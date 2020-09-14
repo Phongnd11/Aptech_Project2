@@ -274,52 +274,52 @@ public class User extends JFrame {
 		lblBg1.setIcon(new ImageIcon(img1));
 		desktopPane.add(lblBg1);
 		
-		Emp_info emp = new BaoEmp_info().getEmp("emp01");
-		lblName.setText(emp.getName());
-		lblPosition.setText(emp.getPosition_id());
-		lblDepartment.setText(emp.getDepartment_id());
+//		Emp_info emp = new BaoEmp_info().getEmp("emp01");
+//		lblName.setText(emp.getName());
+//		lblPosition.setText(emp.getPosition_id());
+//		lblDepartment.setText(emp.getDepartment_id());
 	
 		
 		contentPane.setLayout(gl_contentPane);
 	}
 	protected void btnNotificationActionPerformed(ActionEvent e) {
 		if(x != 1) {
-			panel.setVisible(true);
-			desktopPane_2.removeAll();
-			UserNotification sub = new UserNotification();
-			sub.setVisible(true);
-			desktopPane_2.add(sub);
-			x = 1;
+//			panel.setVisible(true);
+//			desktopPane_2.removeAll();
+//			UserNotification sub = new UserNotification();
+//			sub.setVisible(true);
+//			desktopPane_2.add(sub);
+//			x = 1;
 		}
 		
 	}
 	protected void btnNewButtonActionPerformed(ActionEvent e) {
 		if(x != 2) {
-			panel.setVisible(true);
-			desktopPane_2.removeAll();
-			UserPersonalDetails sub = new UserPersonalDetails();
-			sub.setVisible(true);
-			desktopPane_2.add(sub);
+//			panel.setVisible(true);
+//			desktopPane_2.removeAll();
+//			UserPersonalDetails sub = new UserPersonalDetails();
+//			sub.setVisible(true);
+//			desktopPane_2.add(sub);
 			x = 2;
 		}
 	}
 	protected void btnNewButton_1ActionPerformed(ActionEvent e) {
 		if(x != 3) {
-			panel.setVisible(true);
-			desktopPane_2.removeAll();
-			UserProject sub = new UserProject();
-			sub.setVisible(true);
-			desktopPane_2.add(sub);
+//			panel.setVisible(true);
+//			desktopPane_2.removeAll();
+//			UserProject sub = new UserProject();
+//			sub.setVisible(true);
+//			desktopPane_2.add(sub);
 			x = 3;
 		}
 	}
 	protected void btnNewButton_2ActionPerformed(ActionEvent e) {
 		if(x != 4) {
-			panel.setVisible(true);
-			desktopPane_2.removeAll();
-			UserTransfer sub = new UserTransfer();
-			sub.setVisible(true);
-			desktopPane_2.add(sub);
+//			panel.setVisible(true);
+//			desktopPane_2.removeAll();
+//			UserTransfer sub = new UserTransfer();
+//			sub.setVisible(true);
+//			desktopPane_2.add(sub);
 			x = 4;
 		}
 	}

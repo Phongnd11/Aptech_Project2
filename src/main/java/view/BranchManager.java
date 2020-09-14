@@ -175,6 +175,11 @@ public class BranchManager extends JInternalFrame {
 	
 		scrollPane.setViewportView(table);
 		getContentPane().setLayout(groupLayout);
+		table.addMouseListener(new MouseAdapter() {
+		    public void mousePressed(MouseEvent e) {
+		        doubleClickRowOnTable(e);
+		    }
+		});
 //		
 //		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI());
 //		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
@@ -210,14 +215,19 @@ public class BranchManager extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-			String id = (String) table.getValueAt(row, 1);
-			int confirm = JOptionPane.showConfirmDialog(this, "Confirm delete ID: " + id, "Confirm", JOptionPane.YES_NO_OPTION);
-			if(confirm == JOptionPane.YES_OPTION){
-				ResultsMessage rm = new BaoBranch().delete(id);
-				int index = (int) table.getValueAt(row, 0);
-				rm.showMessage(null);
-				if(rm.getNum()>0) {
-					updateListNonDB(index -1, id);
+
+			if(!(boolean) table.getValueAt(row, 3)) {
+				JOptionPane.showMessageDialog(this, "Status is fasle!", "Error", JOptionPane.ERROR_MESSAGE);
+			}else {
+				String id = (String) table.getValueAt(row, 1);
+				int confirm = JOptionPane.showConfirmDialog(this, "Confirm delete ID: " + id, "Confirm", JOptionPane.YES_NO_OPTION);
+				if(confirm == JOptionPane.YES_OPTION){
+					ResultsMessage rm = new BaoBranch().delete(id);
+					int index = (int) table.getValueAt(row, 0);
+					rm.showMessage(null);
+					if(rm.getNum()>0) {
+						updateListNonDB(index -1, id);
+					}
 				}
 			}
 		}

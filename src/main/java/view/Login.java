@@ -212,7 +212,6 @@ public class Login extends JFrame {
 			txtPassword.setText("");
 		}else {
 			CurrentUser cuser = new BaoLogin().getLogin(id, password);
-			System.out.println(cuser.toString());
 			if(cuser!=null) {
 				getJFrame(cuser);
 			}else {
