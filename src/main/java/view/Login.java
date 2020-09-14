@@ -200,6 +200,10 @@ public class Login extends JFrame {
 		Image img = new ImageIcon(this.getClass().getResource("../img/background.jpg")).getImage();
 		
 		contentPane.setLayout(gl_contentPane);
+		
+		
+		txtUser.setText("admin");
+		txtPassword.setText("admin");
 	}
 	protected void btnExitLoginActionPerformed(ActionEvent e) {
 		System.exit(0);

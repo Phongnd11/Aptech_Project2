@@ -36,7 +36,7 @@ public class Sys_FrameLoadBranch extends JFrame {
 	private JTextField txtName;
 	private JButton btnSave;
 	private JButton btnCancel;
-	private BranchManager bm = new BranchManager();
+	private BranchManager bm = new BranchManager(null);
 	private DepartmentInsert frameDepa = new DepartmentInsert();
 	private int type;
 	private JCheckBox chkStatus;

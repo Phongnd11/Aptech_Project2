@@ -12,6 +12,7 @@ import bao.BaoDepartment;
 import bao.BaoGetComboBox;
 import bao.BaoPosition;
 import entity.Branch;
+import entity.CurrentUser;
 import entity.Department;
 import entity.Position;
 import helper.GetIndexComboID;
@@ -61,30 +62,20 @@ public class AddPosition extends JFrame {
 	private JComboBox cbBranch;
 	private JCheckBox chkBranchAdmin;
 	private JCheckBox chkDepartmentAdmin;
-	private String userLoginID;
 	private JLabel lblBranchId;
 	private JLabel lblListDepartment;
 	private boolean userIsAdmin;
+	private CurrentUser cuser = new CurrentUser();
+	private int row;
+	PositionManager framePm = new PositionManager(null);
 	
-			public static void main(String[] args) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						AddPosition frame = new AddPosition(1, null, "admin", true);
-						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-		
-	public AddPosition() {}
-	public AddPosition(int type, String id, String userLoginID, boolean userIsAdmin) {
+	public AddPosition(int type, String id, CurrentUser cuser, int row, PositionManager framePm) {}
+	public AddPosition() {
 		this.type =type;
 		this.id = id;
-		this.userLoginID=userLoginID;
-		this.userIsAdmin = userIsAdmin;
+		this.cuser = cuser;
+		this.row=row;
+		this.framePm = framePm;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 559, 412);
@@ -263,7 +254,7 @@ public class AddPosition extends JFrame {
 	}
 	
 	public void comboBoxSetValue() {
-		listCB = new BaoGetComboBox().getList("Branch", userLoginID);
+		listCB = new BaoGetComboBox().getList("Branch", cuser.getUsername());
 		for (ComboItem item :listCB) {
 			cbBranch.addItem(new ComboItem(item.getId(), item.getValue()));
 		}

@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import bao.BaoBranch;
 import bao.BaoProject;
 import entity.Branch;
+import entity.CurrentUser;
 import entity.GetProject;
 import modal.ResultsMessage;
 
@@ -24,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -58,12 +60,14 @@ public class BranchManager extends JInternalFrame {
 	private JMenuItem mntmReload;
 	private String userLoginId;
 	private int i;
-	private List<Branch> list;
+	private List<Branch> list = new ArrayList<Branch>();
 	private JButton btnLoadAll;
+	private CurrentUser cuser = new CurrentUser();
 	
-	public BranchManager() {
-		userLoginId ="admin";
+	public BranchManager(CurrentUser cuser) {
 		
+		this.cuser = cuser;
+		userLoginId = this.cuser.getUsername();
 		setBounds(0, 0, 1000, 475);
 		
 		btnAdd = new JButton("Add");
@@ -197,7 +201,7 @@ public class BranchManager extends JInternalFrame {
 	}
 	
 	protected void btnAddActionPerformed(ActionEvent e) {
-		new AddBranch(1, null, null, this, 0);
+		new AddBranch(1, null, null, null, 0);
 	}
 	
 	protected void btnEditActionPerformed(ActionEvent e) {

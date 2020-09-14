@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
@@ -10,11 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import bao.BaoBranch;
-import bao.BaoPosition;
 import entity.Branch;
-import entity.Position;
 import helper.SetTileFrame;
-import modal.ComboItem;
 import modal.ResultsMessage;
 
 import javax.swing.GroupLayout;
@@ -36,8 +31,8 @@ public class AddBranch extends JFrame {
 	private JTextField txtName;
 	private JButton btnSave;
 	private JButton btnCancel;
-	private BranchManager bm = new BranchManager();
-	private DepartmentInsert frameDepa = new DepartmentInsert();
+	private BranchManager bm;
+	private DepartmentInsert frameDepa;
 	private int type;
 	private JCheckBox chkStatus;
 	private JLabel lblTitle;
@@ -84,7 +79,7 @@ public class AddBranch extends JFrame {
 		chkStatus = new JCheckBox("Status");
 		chkStatus.setVisible(false);
 		
-		lblTitle = new JLabel(SetTileFrame.getTitle(this.type, "Position"));
+		lblTitle = new JLabel(SetTileFrame.getTitle(this.type, "Branch"));
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTitle.setForeground(Color.BLUE);
 		

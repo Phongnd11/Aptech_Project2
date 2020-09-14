@@ -76,6 +76,8 @@ public class Admin extends JFrame {
 	private JPanel panel;
 	private JDesktopPane desktopPane_2;
 	private int i = 0;
+	private JButton btnDepartment;
+	private CurrentUser cuser = new CurrentUser();
 
 	/**
 	 * Launch the application.
@@ -94,10 +96,9 @@ public class Admin extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public Admin(CurrentUser cuser) {
+		this.cuser=cuser;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1920, 1080);
 		contentPane = new JPanel();
@@ -169,16 +170,16 @@ public class Admin extends JFrame {
 				btnProjectActionPerformed(e);
 			}
 		});
-		btnProject.setBounds(0, 243, 204, 50);
+		btnProject.setBounds(0, 441, 204, 50);
 		desktopPane.add(btnProject);
 
-		btnStaff = new JButton("Staff manager");
+		btnStaff = new JButton("Employee manager");
 		btnStaff.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnStaffActionPerformed(e);
 			}
 		});
-		btnStaff.setBounds(0, 293, 204, 50);
+		btnStaff.setBounds(0, 491, 204, 50);
 		desktopPane.add(btnStaff);
 
 		btnTransfer = new JButton("Transfer Manager");
@@ -187,7 +188,7 @@ public class Admin extends JFrame {
 				btnTransferActionPerformed(e);
 			}
 		});
-		btnTransfer.setBounds(0, 342, 204, 50);
+		btnTransfer.setBounds(0, 391, 204, 50);
 		desktopPane.add(btnTransfer);
 
 		btnPosition = new JButton("Position Manager");
@@ -196,7 +197,8 @@ public class Admin extends JFrame {
 				btnPositionActionPerformed(e);
 			}
 		});
-		btnPosition.setBounds(0, 442, 204, 50);
+		
+		btnPosition.setBounds(0, 293, 204, 50);
 		desktopPane.add(btnPosition);
 
 		btnBranch = new JButton("Branch Manager");
@@ -205,7 +207,17 @@ public class Admin extends JFrame {
 				btnBranchActionPerformed(e);
 			}
 		});
-		btnBranch.setBounds(0, 392, 204, 50);
+		
+		btnDepartment = new JButton("Department Manager");
+		btnDepartment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnDepartmentActionPerformed(e);
+			}
+		});
+		btnDepartment.setBounds(0, 342, 204, 50);
+		desktopPane.add(btnDepartment);
+		
+		btnBranch.setBounds(0, 243, 204, 50);
 		desktopPane.add(btnBranch);
 
 		lblBg1 = new JLabel("New label");
@@ -214,7 +226,7 @@ public class Admin extends JFrame {
 		lblBg1.setIcon(new ImageIcon(imgBg1));
 		lblBg1.setBounds(0, -3, 204, 625);
 		desktopPane.add(lblBg1);
-
+		
 		contentPane.setLayout(gl_contentPane);
 	}
 
@@ -257,7 +269,7 @@ public class Admin extends JFrame {
 		if (i != 4) {
 			panel.setVisible(true);
 			desktopPane_2.removeAll();
-			BranchManager sub = new BranchManager();
+			BranchManager sub = new BranchManager(cuser);
 			sub.setVisible(true);
 			desktopPane_2.add(sub);
 			i = 4;
@@ -268,11 +280,20 @@ public class Admin extends JFrame {
 		if (i != 5) {
 			panel.setVisible(true);
 			desktopPane_2.removeAll();
-			PositionManager sub = new PositionManager();
+			PositionManager2 sub = new PositionManager2(cuser);
 			sub.setVisible(true);
 			desktopPane_2.add(sub);
 			i = 5;
 		}
 	}
-
+	protected void btnDepartmentActionPerformed(ActionEvent e) {
+		if (i != 6) {
+			panel.setVisible(true);
+			desktopPane_2.removeAll();
+			DepartmentManager sub = new DepartmentManager();
+			sub.setVisible(true);
+			desktopPane_2.add(sub);
+			i = 6;
+		}
+	}
 }
