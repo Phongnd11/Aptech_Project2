@@ -22,10 +22,10 @@ public class BaoPosition {
 	}
 	
 	public Position getFromId(String id) {
-		return new DaoPosition().getfromId(id);
+		return new DaoPosition().getFromId(id);
 	}
 	
-	public List<Position> getAllPosition(boolean getall){
-		return new DaoPosition().getall(true);
+	public List<Position> getAll(String userLoginId, boolean getall) {
+		return new DaoPosition().getAll(userLoginId, getall);
 	}
 }

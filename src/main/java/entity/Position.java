@@ -49,7 +49,6 @@ public class Position {
 		this.listDepartment = listDepartment;
 	}
 	
-	
 	public String getBranch_id() {
 		return branch_id;
 	}

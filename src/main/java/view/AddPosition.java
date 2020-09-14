@@ -11,13 +11,16 @@ import bao.BaoBranch;
 import bao.BaoDepartment;
 import bao.BaoGetComboBox;
 import bao.BaoPosition;
+import bao.BaoSystemInfo;
 import entity.Branch;
 import entity.CurrentUser;
 import entity.Department;
 import entity.Position;
+import helper.GetArrayIndexJList;
 import helper.GetIndexComboID;
 import helper.SetTileFrame;
 import modal.ComboItem;
+import modal.ResultsMessage;
 
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -28,6 +31,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -36,11 +40,14 @@ import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import java.awt.Component;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class AddPosition extends JFrame {
 
@@ -65,18 +72,19 @@ public class AddPosition extends JFrame {
 	private JLabel lblBranchId;
 	private JLabel lblListDepartment;
 	private boolean userIsAdmin;
-	private CurrentUser cuser = new CurrentUser();
-	private int row;
-	PositionManager framePm = new PositionManager(null);
+	private CurrentUser cuser;
+	private int index;
+	PositionManager framePm;
+	private int maxDepartment;
 	
-	public AddPosition(int type, String id, CurrentUser cuser, int row, PositionManager framePm) {}
-	public AddPosition() {
+//	public AddPosition(int type, String id, CurrentUser cuser, int index, PositionManager framePm) {}
+	public AddPosition(int type, String id, CurrentUser cuser, int index, PositionManager framePm) {
 		this.type =type;
 		this.id = id;
 		this.cuser = cuser;
-		this.row=row;
+		this.index=index;
 		this.framePm = framePm;
-		
+		this.maxDepartment = BaoSystemInfo.get("max_department");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 559, 412);
 		contentPane = new JPanel();
@@ -116,7 +124,7 @@ public class AddPosition extends JFrame {
 		
 		
 		listDM = new JList(new DefaultListModel());
-				
+	
 		scrlDepartment = new JScrollPane(listDM);
 		scrlDepartment.setEnabled(false);
 		
@@ -236,23 +244,33 @@ public class AddPosition extends JFrame {
 		}else {
 			this.setVisible(true);
 		}
-		if(!this.userIsAdmin)
+		
+		if(!cuser.isAdmin())
 			hideBranch();
 	}
+	
 	protected void loadFrameWhenEdit() {
-		Position pos = new BaoPosition().getFromId(this.id);
+		Position pos = new BaoPosition().getFromId(id);
 		if(pos.getId() != null) {
 			txtId.setText(pos.getId());
 			txtName.setText(pos.getName());
 			comboBoxSetSelectItem(pos.getBranch_id());
 			chckStatus.setSelected(pos.isStatus());
+			chkBranchAdmin.setSelected(pos.getListBranch() != null ? true : false);
+			chkDepartmentAdmin.setSelected(pos.getListDepartment() != null ? true : false);
 			chckStatus.setVisible(true);
 			txtId.setEditable(false);
+			
+			if(pos.getListDepartment() != null) {
+				listDM.setSelectedIndices(GetArrayIndexJList.get(pos.getListDepartment(), listDepartment));
+			}
+			
 			this.setVisible(true);
-		}
-		
+		}else 
+			new ResultsMessage(-1, "["+id+"] - is not exits!").showMessage(this);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void comboBoxSetValue() {
 		listCB = new BaoGetComboBox().getList("Branch", cuser.getUsername());
 		for (ComboItem item :listCB) {
@@ -268,6 +286,7 @@ public class AddPosition extends JFrame {
 	}
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setListDMLoad(String branch_id) {
 		listDepartment = new BaoDepartment().getFromBranch(branch_id);
 		DefaultListModel defaultDM = new DefaultListModel();
@@ -288,9 +307,11 @@ public class AddPosition extends JFrame {
 		String strID ="";
 		if(listDM.getSelectedIndex() != -1) {
 			int[] selectedIx = listDM.getSelectedIndices();
-			
-			for (int i = 0; i < selectedIx.length; i++) {
-				strID += "," + listDepartment.get(selectedIx[i]).getId();
+			System.out.println(selectedIx.length +"="+ maxDepartment);
+			if(selectedIx.length <= maxDepartment && selectedIx.length >= 1) {
+				for (int i = 0; i < selectedIx.length; i++) {
+					strID += "," + listDepartment.get(selectedIx[i]).getId();
+				}
 			}
 		}
 		return strID;
@@ -306,12 +327,26 @@ public class AddPosition extends JFrame {
 	
 	protected void do_btnSave_actionPerformed(ActionEvent e) {
 		String branch_id = chkBranchAdmin.isSelected() ?  ((ComboItem)cbBranch.getSelectedItem()).getId() : null;
-		String listDepartment = chkDepartmentAdmin.isSelected() ? getSelectListToId() : null;
-		System.out.println(new Position(txtId.getText(), txtName.getText(), chckStatus.isSelected(),branch_id, listDepartment,((ComboItem)cbBranch.getSelectedItem()).getId()).toString());
+		String listDepartment = null;
+		if(chkDepartmentAdmin.isSelected()) {
+			String listId = getSelectListToId();
+			if(!listId.equals("")) {
+				listDepartment=listId;
+			}else {
+				JOptionPane.showMessageDialog(this, "Max list Department: " + maxDepartment + " And List > 0");;
+				return;
+			}
+		}
 		if(type == 1) {
-			new BaoPosition().insert(new Position(txtId.getText(), txtName.getText(), true, branch_id, listDepartment,((ComboItem)cbBranch.getSelectedItem()).getId())).showMessage(this);
+			ResultsMessage rm = new BaoPosition().insert(new Position(txtId.getText(), txtName.getText(), true, branch_id, listDepartment,((ComboItem)cbBranch.getSelectedItem()).getId()));
+			if(rm.getNum()>0)
+				framePm.addNewToTable(txtId.getText());
+			rm.showMessage(this);
 		}else {
-			new BaoPosition().update(new Position(txtId.getText(), txtName.getText(), chckStatus.isSelected(),branch_id, listDepartment,((ComboItem)cbBranch.getSelectedItem()).getId())).showMessage(this);
+			ResultsMessage rm = new BaoPosition().update(new Position(txtId.getText(), txtName.getText(), chckStatus.isSelected(),branch_id, listDepartment,((ComboItem)cbBranch.getSelectedItem()).getId()));
+			if(rm.getNum()>0)
+				framePm.updateListFromID(index, txtId.getText());
+			rm.showMessage(this);
 		}
 	}
 	
@@ -319,6 +354,7 @@ public class AddPosition extends JFrame {
 		this.dispose();
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void chkDepartmentAdminItemStateChanged(ItemEvent e) {
 		if(chkDepartmentAdmin.isSelected()) {
 			setListDMLoad(((ComboItem)cbBranch.getSelectedItem()).getId());
@@ -327,4 +363,18 @@ public class AddPosition extends JFrame {
 			scrlDepartment.setViewportView(new JList(new DefaultListModel()));
 		}
 	}
+	
+	protected void listDMValueChanged(ListSelectionEvent e) {
+		if(listDM.getSelectedIndex() != -1) {
+			int[] selectedIx = listDM.getSelectedIndices();
+			System.out.println(selectedIx.length);
+			if(selectedIx.length > maxDepartment || selectedIx.length < 1) {
+				JOptionPane.showMessageDialog(this, "List Department >= 1 and <= " + maxDepartment);
+				btnSave.setVisible(false);
+			} else {
+				btnSave.setVisible(true);
+			}
+		}
+	}
+
 }

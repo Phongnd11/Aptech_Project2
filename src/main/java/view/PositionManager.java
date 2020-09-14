@@ -13,10 +13,12 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 
 import bao.BaoBranch;
+import bao.BaoPosition;
 import bao.BaoProject;
 import entity.Branch;
 import entity.CurrentUser;
 import entity.GetProject;
+import entity.Position;
 import modal.ResultsMessage;
 
 import java.awt.event.ActionListener;
@@ -58,16 +60,14 @@ public class PositionManager extends JInternalFrame {
 	private JMenuItem mntmEdit;
 	private JMenuItem mntmDelete;
 	private JMenuItem mntmReload;
-	private String userLoginId;
 	private int i;
-	private List<Branch> list = new ArrayList<Branch>();
+	private List<Position> list = new ArrayList<Position>();
 	private JButton btnLoadAll;
 	private CurrentUser cuser = new CurrentUser();
 	
 	public PositionManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
-		userLoginId = cuser.getUsername();
 		
 		setBounds(0, 0, 1000, 475);
 		
@@ -92,7 +92,7 @@ public class PositionManager extends JInternalFrame {
 			}
 		});
 		
-		btnLoad = new JButton("Branch Active");
+		btnLoad = new JButton("Position Active");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLoadActionPerformed(e);
@@ -193,11 +193,11 @@ public class PositionManager extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
-		list = new BaoBranch().getAll(userLoginId, false);
+		list = new BaoPosition().getAll(cuser.getUsername(), false);
 		loadListToTable();
 	}
 	protected void btnLoadAllActionPerformed(ActionEvent e) {
-		list = new BaoBranch().getAll(userLoginId, true);
+		list = new BaoPosition().getAll(cuser.getUsername(), true);
 		loadListToTable();
 	}
 	
@@ -221,17 +221,17 @@ public class PositionManager extends JInternalFrame {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
 
-			if(!(boolean) table.getValueAt(row, 3)) {
+			if(!(boolean) table.getValueAt(row, 4)) {
 				JOptionPane.showMessageDialog(this, "Status is fasle!", "Error", JOptionPane.ERROR_MESSAGE);
 			}else {
 				String id = (String) table.getValueAt(row, 1);
 				int confirm = JOptionPane.showConfirmDialog(this, "Confirm delete ID: " + id, "Confirm", JOptionPane.YES_NO_OPTION);
 				if(confirm == JOptionPane.YES_OPTION){
-					ResultsMessage rm = new BaoBranch().delete(id);
+					ResultsMessage rm = new BaoPosition().delete(id);
 					int index = (int) table.getValueAt(row, 0);
 					rm.showMessage(null);
 					if(rm.getNum()>0) {
-						updateListNonDB(index -1, id);
+						updateListFromID(index -1, id);
 					}
 				}
 			}
@@ -250,12 +250,12 @@ public class PositionManager extends JInternalFrame {
 		defaultTable.addColumn("#");
 		defaultTable.addColumn("Id");
 		defaultTable.addColumn("Name");
+		defaultTable.addColumn("Branch");
 		defaultTable.addColumn("Status");
 		i=0;
-		
-		for(Branch branch : list) {
+		for(Position po : list) {
 			defaultTable.addRow(new Object[] {
-				++i, branch.getId(), branch.getName(), branch.getStatus()
+				++i, po.getId(), po.getName(), po.getBranch_id(), po.isStatus()
 			});
 		}
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -266,18 +266,18 @@ public class PositionManager extends JInternalFrame {
 		createPopupMenu();
 	}
 	
-	 public void addBranchToTable(String id) {
-		 Branch branch = new BaoBranch().getFromId(id);
-    	list.add(branch);
+	 public void addNewToTable(String id) {
+		Position po = new BaoPosition().getFromId(id);
+    	list.add(po);
     	DefaultTableModel model = (DefaultTableModel) table.getModel();
     	model.addRow(new Object[] {
-    			++i, branch.getId(), branch.getName(), branch.getStatus()
+    			++i, po.getId(), po.getName(),po.getBranch_id(), po.isStatus()
 		});
 	 }
 	 
-	public void updateListNonDB(int index, String id) {
-		Branch branch = new BaoBranch().getFromId(id);
-		list.set(index, branch);
+	public void updateListFromID(int index, String id) {
+		Position po = new BaoPosition().getFromId(id);
+		list.set(index, po);
 		loadListToTable();
 	}
 	

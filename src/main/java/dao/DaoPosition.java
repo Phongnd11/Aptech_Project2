@@ -16,7 +16,7 @@ public class DaoPosition {
 	ResultsMessage rsmess = new ResultsMessage();
 	List<Position> list = new ArrayList<Position>();
 	
-	public Position getfromId(String id) {
+	public Position getFromId(String id) {
 		Position pos = new Position();
 		String sql = "SELECT * FROM Position WHERE id ='"+ id + "'";
 		try (
@@ -25,33 +25,37 @@ public class DaoPosition {
 				var resultSet = stmt.executeQuery(sql);
 				)
 		{
+			resultSet.next();
 			pos.setId(resultSet.getString("id"));
 			pos.setName(resultSet.getNString("name"));
 			pos.setStatus(resultSet.getBoolean("status"));
 			pos.setListBranch(resultSet.getString("listBranch"));
 			pos.setListDepartment(resultSet.getString("listDepartment"));
+			pos.setBranch_id(resultSet.getString("branch_id"));
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());
 		}
 		return pos;
 	}
 	
-	public List<Position> getall(boolean status) {
+	public List<Position> getAll(String userLoginId, boolean getall) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_position(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_position(?,?)}")
 				)
 		{
-			cs.setBoolean(1, status);
+			cs.setString(1, userLoginId);
+			cs.setBoolean(2, getall);
 			cs.executeQuery();
 			ResultSet resultSet = cs.getResultSet();
 			while(resultSet.next()) {
-				list.add(new Position(resultSet.getString("id"), resultSet.getNString("name"), resultSet.getBoolean("status"), resultSet.getString("listBranch"),
-						resultSet.getNString("listDepartment"), resultSet.getNString("branch_id")));
+				list.add(new Position(resultSet.getString("id"), resultSet.getString("name"), resultSet.getBoolean("status"), resultSet.getString("listBranch"),
+						resultSet.getString("listDepartment"), resultSet.getString("branch_id")));
 			}
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());
 		}
+		
 		return list;
 	}
 	

@@ -280,7 +280,7 @@ public class Admin extends JFrame {
 		if (i != 5) {
 			panel.setVisible(true);
 			desktopPane_2.removeAll();
-			PositionManager2 sub = new PositionManager2(cuser);
+			PositionManager sub = new PositionManager(cuser);
 			sub.setVisible(true);
 			desktopPane_2.add(sub);
 			i = 5;
