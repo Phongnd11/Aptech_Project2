@@ -216,19 +216,17 @@ public class Login extends JFrame {
 			txtPassword.setText("");
 		}else {
 			CurrentUser cuser = new BaoLogin().getLogin(id, password);
-			if(cuser!=null) {
+			if(cuser.getUsername()!=null) {
 				getJFrame(cuser);
 			}else {
 				JOptionPane.showMessageDialog(this, "Id or password is incorrect!", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		
-		
 	}
 	
 	private void getJFrame(CurrentUser cuser) {
 		if(!cuser.isAdmin() && cuser.getListBranch()==null && cuser.getListDepartment()==null) {
-//			new User().setVisible(true);
+			JOptionPane.showInternalMessageDialog(null, "USer");
 		}else {
 			new Admin(cuser).setVisible(true);
 		}

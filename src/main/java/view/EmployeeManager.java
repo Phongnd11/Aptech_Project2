@@ -14,11 +14,13 @@ import javax.swing.table.DefaultTableModel;
 
 import bao.BaoBranch;
 import bao.BaoDepartment;
+import bao.BaoEmployee;
 import bao.BaoProject;
 import entity.Branch;
 import entity.CurrentUser;
 import entity.Department;
 import entity.GetProject;
+import modal.EmployeeView;
 import modal.ResultsMessage;
 
 import java.awt.event.ActionListener;
@@ -47,7 +49,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.FocusAdapter;
 
-public class DepartmentManager extends JInternalFrame {
+public class EmployeeManager extends JInternalFrame {
 	private JButton btnAdd;
 	private JButton btnEdit;
 	private JButton btnDelete;
@@ -61,11 +63,11 @@ public class DepartmentManager extends JInternalFrame {
 	private JMenuItem mntmDelete;
 	private JMenuItem mntmReload;
 	private int i;
-	private List<Department> list = new ArrayList<Department>();
+	private List<EmployeeView> list = new ArrayList<EmployeeView>();
 	private JButton btnLoadAll;
 	private CurrentUser cuser = new CurrentUser();
 	
-	public DepartmentManager(CurrentUser cuser) {
+	public EmployeeManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
 		setBounds(0, 0, 1000, 475);
@@ -192,16 +194,16 @@ public class DepartmentManager extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
-		list = new BaoDepartment().getAll(cuser.getUsername(), false);
+		list = new BaoEmployee().getAll(cuser.getUsername(), false);
 		loadListToTable();
 	}
 	protected void btnLoadAllActionPerformed(ActionEvent e) {
-		list = new BaoDepartment().getAll(cuser.getUsername(), true);
+		list = new BaoEmployee().getAll(cuser.getUsername(), true);
 		loadListToTable();
 	}
-	
+//	 int type, String id, DepartmentManager dm, int index, CurrentUser cuser
 	protected void btnAddActionPerformed(ActionEvent e) {
-		new AddDepartment(1, null, this, 0, cuser);
+		new AddEmployee(1, null, this, 0, cuser);
 	}
 	
 	protected void btnEditActionPerformed(ActionEvent e) {
@@ -210,7 +212,7 @@ public class DepartmentManager extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-			new AddDepartment(2,(String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser);
+			new AddEmployee(2,(String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser);
 		}
 	}
 	
@@ -249,37 +251,45 @@ public class DepartmentManager extends JInternalFrame {
 		defaultTable.addColumn("#");
 		defaultTable.addColumn("Id");
 		defaultTable.addColumn("Name");
-		defaultTable.addColumn("Branch");
+		defaultTable.addColumn("Gender");
+		defaultTable.addColumn("Department");
+		defaultTable.addColumn("Position");
+		defaultTable.addColumn("Education");
+		defaultTable.addColumn("Specialize");
+		defaultTable.addColumn("Phone");
+		defaultTable.addColumn("Email");
+		defaultTable.addColumn("Date Join");
 		defaultTable.addColumn("Status");
 		i=0;
 		
-		for(Department dep : list) {
+		for(EmployeeView emp : list) {
 			defaultTable.addRow(new Object[] {
-				++i, dep.getId(), dep.getName(),dep.getBranch_id(), dep.isStatus()
+				++i, emp.getId(), emp.getName(), emp.getGender(), emp.getDepartment_id(), emp.getPosition_id(), emp.getAddress(),
+				emp.getEducation(), emp.getSpecialize(), emp.getPhone(), emp.getEmail(), emp.getDatejoin(), emp.isStatus()
 			});
 		}
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(70);
-		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+//		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(70);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(90);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(90);
+//		table.getColumnModel().getColumn(3).setPreferredWidth(150);
 		createPopupMenu();
 	}
 	
 	 public void addNewToTable(String id) {
-		Department dep = new BaoDepartment().getFromId(id);
-    	list.add(dep);
-    	DefaultTableModel model = (DefaultTableModel) table.getModel();
-    	model.addRow(new Object[] {
-    			++i, dep.getId(), dep.getName(), dep.getBranch_id(), dep.isStatus()
-		});
+//		Department dep = new BaoDepartment().getFromId(id);
+//    	list.add(dep);
+//    	DefaultTableModel model = (DefaultTableModel) table.getModel();
+//    	model.addRow(new Object[] {
+//    			++i, dep.getId(), dep.getName(), dep.getBranch_id(), dep.isStatus()
+//		});
 	 }
 	 
 	public void updateListFromID(int index, String id) {
-		Department dep = new BaoDepartment().getFromId(id);
-		list.set(index, dep);
-		loadListToTable();
+//		Department dep = new BaoDepartment().getFromId(id);
+//		list.set(index, dep);
+//		loadListToTable();
 	}
 	
 	private void createPopupMenu() {
@@ -353,7 +363,7 @@ public class DepartmentManager extends JInternalFrame {
         Point point = e.getPoint();
         int row = table.rowAtPoint(point);
         if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-        	new AddDepartment(2,(String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser);
+//        	new AddEmplyee(2,(String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser);
         }
 	}
 	

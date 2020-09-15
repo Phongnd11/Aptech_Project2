@@ -246,7 +246,7 @@ public class Admin extends JFrame {
 		if (i != 2) {
 			panel.setVisible(true);
 			desktopPane_2.removeAll();
-			TransferManager sub = new TransferManager();
+			EmployeeManager sub = new EmployeeManager(cuser);
 			sub.setVisible(true);
 			desktopPane_2.add(sub);
 			i = 2;

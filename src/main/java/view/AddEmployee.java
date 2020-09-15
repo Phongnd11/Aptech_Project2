@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import bao.BaoEmp_info;
 import bao.BaoGetComboBox;
+import entity.CurrentUser;
 import entity.Emp_info;
 import helper.SetTileFrame;
 import modal.ComboItem;
@@ -69,36 +70,36 @@ public class AddEmployee extends JFrame {
 	private JComboBox cbxPosition;
 	private JLabel lblNewLabel_9;
 	private JDateChooser calDate;
-	private String userLoginId;
+	private CurrentUser cuser;
 	
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddEmployee frame = new AddEmployee();
-					frame.setUndecorated(true);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AddEmployee frame = new AddEmployee();
+//					frame.setUndecorated(true);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AddEmployee(int type, String id, String userLoginId){
-		
-	}
-	public AddEmployee() {
+//	public AddEmployee(int type, String id, DepartmentManager dm, int index, CurrentUser cuser){	
+//	}
+	public AddEmployee() {}
+	public AddEmployee(int type, String id, EmployeeManager em, int index, CurrentUser cuser) {
 		this.type = type;
 		this.id = id;
-		this.userLoginId = userLoginId;
+		this.cuser = cuser;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 641, 401);
@@ -199,17 +200,16 @@ public class AddEmployee extends JFrame {
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(60)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(lblNewLabel_2)
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addComponent(lblNewLabel_4)
-								.addGap(50))
-							.addGroup(gl_panel.createSequentialGroup()
-								.addComponent(lblNewLabel_3)
-								.addGap(18)))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblNewLabel_4)
+							.addGap(50))
 						.addComponent(lblNewLabel)
-						.addComponent(lblNewLabel_9))
+						.addComponent(lblNewLabel_9)
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(18)))
 					.addGap(34)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(chbStatus, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
@@ -218,7 +218,7 @@ public class AddEmployee extends JFrame {
 						.addComponent(txtID)
 						.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
 						.addComponent(calDate, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(139, Short.MAX_VALUE))
+					.addContainerGap(103, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -243,7 +243,7 @@ public class AddEmployee extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_9)
 						.addComponent(calDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
 					.addComponent(chbStatus)
 					.addContainerGap())
 		);
@@ -340,14 +340,14 @@ public class AddEmployee extends JFrame {
 	}
 	
 	private void comboBoxSetValue1() {
-		listCBDepartment = new BaoGetComboBox().getList("Department", userLoginId);
+		listCBDepartment = new BaoGetComboBox().getList("Department", cuser.getUsername());
 		for (ComboItem item :listCBDepartment) {
 			cbxDepartment.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
 	}
 	
 	private void comboBoxSetValue2() {
-		listCBPosition = new BaoGetComboBox().getListAll("Position", userLoginId);
+		listCBPosition = new BaoGetComboBox().getListAll("Position", cuser.getUsername());
 		for (ComboItem item :listCBPosition) {
 			cbxPosition.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
