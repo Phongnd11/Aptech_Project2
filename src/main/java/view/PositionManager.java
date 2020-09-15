@@ -251,18 +251,23 @@ public class PositionManager extends JInternalFrame {
 		defaultTable.addColumn("Id");
 		defaultTable.addColumn("Name");
 		defaultTable.addColumn("Branch");
+		defaultTable.addColumn("List Branch");
+		defaultTable.addColumn("List Department");
 		defaultTable.addColumn("Status");
 		i=0;
 		for(Position po : list) {
 			defaultTable.addRow(new Object[] {
-				++i, po.getId(), po.getName(), po.getBranch_id(), po.isStatus()
+				++i, po.getId(), po.getName(), po.getBranch_id(),po.getListBranch(),po.getListDepartment(), po.isStatus()
 			});
 		}
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(70);
-		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(150);
+		table.getColumnModel().getColumn(5).setPreferredWidth(300);
+		table.getColumnModel().getColumn(6).setPreferredWidth(50);
 		createPopupMenu();
 	}
 	

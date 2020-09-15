@@ -11,14 +11,20 @@ import javax.swing.border.EmptyBorder;
 import bao.BaoBranch;
 import bao.BaoDepartment;
 import bao.BaoGetComboBox;
+import bao.BaoPosition;
 import entity.Branch;
+import entity.CurrentUser;
 import entity.Department;
+import entity.Position;
+import helper.GetArrayIndexJList;
 import helper.GetIndexComboID;
 import modal.ComboItem;
+import modal.ResultsMessage;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -27,8 +33,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JCheckBox;
 
-public class DepartmentInsert extends JFrame {
+public class AddDepartment extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblName;
@@ -38,31 +45,24 @@ public class DepartmentInsert extends JFrame {
 	private JTextField txtId;
 	private JTextField txtName;
 	private JLabel lblBranchId;
-	public JComboBox cbBranch;
-	public List<ComboItem> listCB;
+	private List<ComboItem> listCB;
 	private JButton btnNew;
-	private String userLoginID;
+	private JComboBox cbBranch;
+	private CurrentUser cuser;
+	private int type;
+	private String id;
+	private DepartmentManager dm;
+	private int index;
+	private JCheckBox chkStatus;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DepartmentInsert frame = new DepartmentInsert();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public DepartmentInsert() {
+	public AddDepartment() {}
+	public AddDepartment(int type, String id, DepartmentManager dm, int index, CurrentUser cuser) {
+		this.type=type;
+		this.id=id;
+		this.dm=dm;
+		this.index=index;
+		this.cuser=cuser;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -96,7 +96,6 @@ public class DepartmentInsert extends JFrame {
 		lblBranchId = new JLabel("Branch ID");
 		
 		cbBranch = new JComboBox();
-		comboBoxSetValue();
 		
 		btnNew = new JButton("+");
 		btnNew.addActionListener(new ActionListener() {
@@ -104,6 +103,9 @@ public class DepartmentInsert extends JFrame {
 				do_btnNew_actionPerformed(e);
 			}
 		});
+		
+		chkStatus = new JCheckBox("Status");
+		chkStatus.setVisible(false);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -121,18 +123,19 @@ public class DepartmentInsert extends JFrame {
 							.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblBranchId, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-							.addGap(28)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(cbBranch, 0, 241, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnNew, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-									.addGap(12))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 									.addGap(31)
-									.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 110, Short.MAX_VALUE)))))
+									.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+									.addGap(18)
+									.addComponent(cbBranch, 0, 251, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNew, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+									.addGap(12))
+								.addComponent(chkStatus))))
 					.addGap(26))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -159,13 +162,41 @@ public class DepartmentInsert extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(cbBranch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnNew))))
-					.addGap(10)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(chkStatus)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnCancel)
 						.addComponent(btnSave))
-					.addContainerGap(57, Short.MAX_VALUE))
+					.addGap(26))
 		);
 		contentPane.setLayout(gl_contentPane);
+		firstLoad();
+	}
+	
+	protected void firstLoad() {
+		comboBoxSetValue();
+		
+		if(this.type==2) {
+			loadFrameWhenEdit();
+		}else {
+			this.setVisible(true);
+		}
+	}
+	
+	protected void loadFrameWhenEdit() {
+		Department dep = new BaoDepartment().getFromId(id);
+		if(dep.getId() != null) {
+			txtId.setText(dep.getId());
+			txtName.setText(dep.getName());
+			comboBoxSelectItem(dep.getBranch_id());
+			chkStatus.setSelected(dep.isStatus());
+			chkStatus.setVisible(true);
+			txtId.setEditable(false);
+			
+			this.setVisible(true);
+		}else 
+			new ResultsMessage(-1, "["+id+"] - is not exits!").showMessage(this);
 	}
 	
 	public void comboBoxRemoveItem() {
@@ -173,7 +204,7 @@ public class DepartmentInsert extends JFrame {
 	}
 	
 	public void comboBoxSetValue() {
-		listCB = new BaoGetComboBox().getList("Branch", userLoginID);
+		listCB = new BaoGetComboBox().getList("Branch", cuser.getUsername());
 		for (ComboItem item :listCB) {
 			cbBranch.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -187,7 +218,19 @@ public class DepartmentInsert extends JFrame {
 	}
 	
 	protected void do_btnSave_actionPerformed(ActionEvent e) {
-		new BaoDepartment().insert(new Department(txtId.getText(), txtName.getText(), ((ComboItem)cbBranch.getSelectedItem()).getId(), true)).showMessage(this);;
+		
+		
+		if(type == 1) {
+			ResultsMessage rm = new BaoDepartment().insert(new Department(txtId.getText(), txtName.getText(), ((ComboItem)cbBranch.getSelectedItem()).getId(), true));
+			if(rm.getNum()>0)
+				dm.addNewToTable(txtId.getText());
+			rm.showMessage(this);
+		}else {
+			ResultsMessage rm = new BaoDepartment().update(new Department(txtId.getText(), txtName.getText(), ((ComboItem)cbBranch.getSelectedItem()).getId(), chkStatus.isSelected()));
+			if(rm.getNum()>0)
+				dm.updateListFromID(index, txtId.getText());
+			rm.showMessage(this);
+		}
 	}
 	
 	protected void do_btnCancel_actionPerformed(ActionEvent e) {

@@ -36,15 +36,15 @@ public class Sys_FrameLoadBranch extends JFrame {
 	private JTextField txtName;
 	private JButton btnSave;
 	private JButton btnCancel;
-	private BranchManager bm = new BranchManager(null);
-	private DepartmentInsert frameDepa = new DepartmentInsert();
+	private BranchManager bm;
+	private AddDepartment frameDepa;
 	private int type;
 	private JCheckBox chkStatus;
 	private JLabel lblTitle;
 	private String id;
 	private int index;
 
-	public Sys_FrameLoadBranch(int type, String id, DepartmentInsert fm, BranchManager bm, int index) {
+	public Sys_FrameLoadBranch(int type, String id, AddDepartment fm, BranchManager bm, int index) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

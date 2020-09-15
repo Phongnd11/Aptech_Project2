@@ -1,6 +1,7 @@
 package entity;
 
 public class Department {
+
 	protected String id;
 	protected String name;
 	protected String branch_id;

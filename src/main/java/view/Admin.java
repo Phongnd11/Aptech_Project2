@@ -290,7 +290,7 @@ public class Admin extends JFrame {
 		if (i != 6) {
 			panel.setVisible(true);
 			desktopPane_2.removeAll();
-			DepartmentManager sub = new DepartmentManager();
+			DepartmentManager sub = new DepartmentManager(cuser);
 			sub.setVisible(true);
 			desktopPane_2.add(sub);
 			i = 6;

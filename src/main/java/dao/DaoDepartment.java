@@ -9,6 +9,7 @@ import java.util.List;
 import common.DatabaseConnect;
 import entity.Department;
 import entity.Position;
+import modal.DepartmentGet;
 import modal.ResultsMessage;
 
 public class DaoDepartment {
@@ -24,6 +25,7 @@ public class DaoDepartment {
 				var resultSet = stmt.executeQuery(sql);
 				)
 		{
+			resultSet.next();
 			dep.setId(resultSet.getString("id"));
 			dep.setName(resultSet.getNString("name"));
 			dep.setBranch_id(resultSet.getString("branch_id"));
@@ -34,14 +36,32 @@ public class DaoDepartment {
 		return dep;
 	}
 	
-	public List<Department> getall(String branch_id, boolean status) {
+	public List<Department> getAll(String userLogin, boolean getall) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
 				CallableStatement cs = con.prepareCall("{call sproc_get_department(?,?)}")
 				)
 		{
+			cs.setString(1, userLogin);
+			cs.setBoolean(2, getall);
+			cs.executeQuery();
+			ResultSet resultSet = cs.getResultSet();
+			while(resultSet.next()) {
+				list.add(new Department(resultSet.getString("id"), resultSet.getNString("name"), resultSet.getString("branch_id"), resultSet.getBoolean("status")));
+			}
+		} catch (Exception e) {
+			rsmess = new ResultsMessage(-1,e.getMessage());
+		}
+		return list;
+	}
+
+	public List<Department> getFromBranch(String branch_id) {
+		try (
+				Connection con = DatabaseConnect.getConnection();
+				CallableStatement cs = con.prepareCall("{call sproc_get_departmentFromBranch(?)}")
+				)
+		{
 			cs.setString(1, branch_id);
-			cs.setBoolean(2, status);
 			cs.executeQuery();
 			ResultSet resultSet = cs.getResultSet();
 			while(resultSet.next()) {

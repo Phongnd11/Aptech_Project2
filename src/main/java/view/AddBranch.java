@@ -32,14 +32,14 @@ public class AddBranch extends JFrame {
 	private JButton btnSave;
 	private JButton btnCancel;
 	private BranchManager bm;
-	private DepartmentInsert frameDepa;
+	private AddDepartment frameDepa;
 	private int type;
 	private JCheckBox chkStatus;
 	private JLabel lblTitle;
 	private String id;
 	private int index;
 
-	public AddBranch(int type, String id, DepartmentInsert fm, BranchManager bm, int index) {
+	public AddBranch(int type, String id, AddDepartment fm, BranchManager bm, int index) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -139,7 +139,7 @@ public class AddBranch extends JFrame {
 	
 	protected void firstLoad() {
 		if(this.type==2) {
-			Branch branch = new BaoBranch().getFromId(this.id);
+			Branch branch = new BaoBranch().getFromId(id);
 			if(branch.getId() != null) {
 				txtId.setText(branch.getId());
 				txtName.setText(branch.getName());
