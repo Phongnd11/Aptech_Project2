@@ -8,12 +8,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import bao.BaoEmp_info;
+import bao.BaoEmployee;
 import bao.BaoGetComboBox;
 import entity.CurrentUser;
 import entity.Emp_info;
 import helper.SetTileFrame;
 import modal.ComboItem;
+import modal.EmployeeView;
 import modal.ListComboItem;
+import modal.ListGender;
+import modal.ResultsMessage;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -25,6 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -67,10 +73,15 @@ public class AddEmployee extends JFrame {
 	private JComboBox cbxDepartment;
 	private List<ComboItem> listCBPosition;
 	private List<ComboItem> listCBDepartment;
+	private List<ComboItem> listGender;
 	private JComboBox cbxPosition;
 	private JLabel lblNewLabel_9;
 	private JDateChooser calDate;
 	private CurrentUser cuser;
+	private JLabel lblNewLabel_10;
+	private JComboBox cbGender;
+	private EmployeeManager em;
+	private int index;
 	
 
 	/**
@@ -95,11 +106,13 @@ public class AddEmployee extends JFrame {
 	 */
 //	public AddEmployee(int type, String id, DepartmentManager dm, int index, CurrentUser cuser){	
 //	}
-	public AddEmployee() {}
+//	public AddEmployee() {
 	public AddEmployee(int type, String id, EmployeeManager em, int index, CurrentUser cuser) {
 		this.type = type;
 		this.id = id;
 		this.cuser = cuser;
+		this.em = em;
+		this.index = index;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 641, 401);
@@ -107,7 +120,7 @@ public class AddEmployee extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		blbTitle = new JLabel(SetTileFrame.getTitle(this.type, "Staff"));
+		blbTitle = new JLabel(SetTileFrame.getTitle(this.type, "Employee"));
 		blbTitle.setForeground(Color.BLUE);
 		blbTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		blbTitle.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -252,19 +265,19 @@ public class AddEmployee extends JFrame {
 		panel_1 = new JPanel();
 		tabbedPane.addTab("   Details   ", null, panel_1, null);
 		
-		lblNewLabel_1 = new JLabel("Email:");
+		lblNewLabel_1 = new JLabel("Email");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		lblNewLabel_5 = new JLabel("Address:");
+		lblNewLabel_5 = new JLabel("Address");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		lblNewLabel_6 = new JLabel("Education:");
+		lblNewLabel_6 = new JLabel("Education");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		lblNewLabel_7 = new JLabel("Specialize:");
+		lblNewLabel_7 = new JLabel("Specialize");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		lblNewLabel_8 = new JLabel("Phone:");
+		lblNewLabel_8 = new JLabel("Phone");
 		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		txtEmail = new JTextField();
@@ -281,30 +294,46 @@ public class AddEmployee extends JFrame {
 		
 		txtPhone = new JTextField();
 		txtPhone.setColumns(10);
+		
+		lblNewLabel_10 = new JLabel("Gender");
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		cbGender = new JComboBox();
+		comboBoxSetValue3();
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(57)
+					.addGap(58)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_1)
 						.addComponent(lblNewLabel_5)
 						.addComponent(lblNewLabel_6)
 						.addComponent(lblNewLabel_7)
-						.addComponent(lblNewLabel_8))
+						.addComponent(lblNewLabel_8)
+						.addComponent(lblNewLabel_10, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
 					.addGap(33)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(cbGender)
 						.addComponent(txtPhone)
 						.addComponent(txtSpecialize)
 						.addComponent(txtEducation)
 						.addComponent(txtAddress)
 						.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE))
-					.addContainerGap(158, Short.MAX_VALUE))
+					.addGap(141))
 		);
 		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(19)
+					.addContainerGap(12, Short.MAX_VALUE)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+							.addComponent(lblNewLabel_10, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+							.addGap(11))
+						.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+							.addComponent(cbGender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1)
 						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -324,7 +353,7 @@ public class AddEmployee extends JFrame {
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_8)
 						.addComponent(txtPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(41, Short.MAX_VALUE))
+					.addGap(19))
 		);
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);
@@ -333,6 +362,49 @@ public class AddEmployee extends JFrame {
 		}else {
 			this.setVisible(true);
 		}
+	}
+	
+	private void LoadFrameWhenEdit() {
+		EmployeeView emp = new BaoEmployee().getFromId(id);
+		if(emp.getId() != null) {
+			txtID.setText(emp.getId());
+			txtName.setText(emp.getName());
+			cbGender.setSelectedIndex(new ListComboItem().findIdToIndex(emp.getGender()));
+			cbxDepartment.setSelectedIndex(new ListComboItem(listCBDepartment).findIdToIndex(emp.getDepartment_id()));
+			cbxPosition.setSelectedIndex(new ListComboItem(listCBPosition).findIdToIndex(emp.getPosition_id()));
+			txtAddress.setText(emp.getAddress());
+			txtEducation.setText(emp.getEducation());
+			txtSpecialize.setText(emp.getSpecialize());
+			txtPhone.setText(emp.getPhone());
+			txtEmail.setText(emp.getEmail());
+			calDate.setDate(emp.getDatejoin() == null ? null : java.sql.Date.valueOf(emp.getDatejoin()));
+			chbStatus.setSelected(emp.isStatus());
+			
+			chbStatus.setVisible(true);
+			txtID.setEditable(false);
+			
+			this.setVisible(true);
+			
+			if(type==3) {
+				btnSave.setText("Edit");
+				visibleFrame(false);
+			}
+		}
+	}
+	
+	private void visibleFrame(boolean bool) {
+		txtID.setEnabled(bool);
+		txtName.setEnabled(bool);
+		cbGender.setEnabled(bool);
+		cbxDepartment.setEnabled(bool);
+		cbxPosition.setEnabled(bool);
+		txtAddress.setEnabled(bool);
+		txtEducation.setEnabled(bool);
+		txtSpecialize.setEnabled(bool);
+		txtPhone.setEnabled(bool);
+		txtEmail.setEnabled(bool);
+		calDate.setEnabled(bool);
+		chbStatus.setEnabled(bool);
 	}
 	
 	protected void btnNewButton_1ActionPerformed(ActionEvent e) {
@@ -353,32 +425,34 @@ public class AddEmployee extends JFrame {
 		}
 	}
 	
-	private void LoadFrameWhenEdit() {
-//		Emp_info emp = new BaoEmp_info().getFromID(id);
-//		chbStatus.setVisible(true);
-//		if(emp.getId() != null) {
-//			txtID.setText(emp.getId());
-//			txtName.setText(emp.getName());
-//			cbbDepartment.setSelectedIndex(new ListComboItem(listCB2).findIdToIndex(emp.getDepartment_id()));
-//			cbbPosition.setSelectedIndex(new ListComboItem(listCB1).findIdToIndex(emp.getPosition_id()));
-//			txtAddress.setText(emp.getAddress());
-//			txtEducation.setText(emp.getEducation());
-//			txtEmail.setText(emp.getEmail());
-//			txtPhone.setText(emp.getPhone());
-//			chbStatus.setSelected(emp.isStatus());
-//			txtID.setEditable(false);
-//			
-//			this.setVisible(true);
-//			
-//			if(type==3) {
-//				btnSave.setText("Edit");
-//			}else {
-//
-//			}
-//		}
-		
+	private void comboBoxSetValue3() {
+		listGender = new BaoGetComboBox().getListGender();
+		for (ComboItem item :listGender) {
+			cbGender.addItem(new ComboItem(item.getId(), item.getValue()));
+		}
 	}
+	
 	protected void btnSaveActionPerformed(ActionEvent e) {
-		
+		if(type==3) {
+			type=2;
+			btnSave.setText("Save");
+			visibleFrame(true);
+		}else {
+			LocalDate datejoin = calDate.getDate() == null ? null : calDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			String gender = cbGender.getSelectedItem() == null ? null : ((ComboItem) cbGender.getSelectedItem()).getId();
+			if(type==1) {
+				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), ((ComboItem) cbxDepartment.getSelectedItem()).getId() , ((ComboItem) cbxPosition.getSelectedItem()).getId(), true,
+						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender);
+				ResultsMessage rm = new BaoEmployee().insert(empV);
+//				update
+				rm.showMessage(this);
+			} else {
+				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), ((ComboItem) cbxDepartment.getSelectedItem()).getId() , ((ComboItem) cbxPosition.getSelectedItem()).getId(), chbStatus.isSelected(),
+						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender);
+				ResultsMessage rm = new BaoEmployee().update(empV);
+//				update
+				rm.showMessage(this);
+			}
+		}	
 	}
 }

@@ -31,12 +31,12 @@ public class ResultsMessage {
 	}
 
 	public void showMessage(JFrame jframe) {
-		if (this.num > 0) {
+		if (num > 0) {
 			JOptionPane.showMessageDialog(jframe, message, "Info", JOptionPane.INFORMATION_MESSAGE);
 			if(jframe != null) {
 				jframe.dispose();
 			}
-		}else if (this.num == 0){
+		}else if (num == 0 || (num == -1 && message != null )){
 			JOptionPane.showMessageDialog(jframe, message, "ERROR", JOptionPane.ERROR_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(jframe,"There was an abnormal error during execution!", "ERROR", JOptionPane.ERROR_MESSAGE);

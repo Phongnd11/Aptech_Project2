@@ -20,7 +20,6 @@ public class EmployeeView {
 	public EmployeeView() {}
 	public EmployeeView(String id, String name, String department_id, String position_id, boolean status,
 			String address, String education, String specialize, String phone, String email, LocalDate datejoin, String gender) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.department_id = department_id;
@@ -112,7 +111,8 @@ public class EmployeeView {
 	public String toString() {
 		return "EmployeeView [id=" + id + ", name=" + name + ", department_id=" + department_id + ", position_id="
 				+ position_id + ", status=" + status + ", address=" + address + ", education=" + education
-				+ ", specialize=" + specialize + ", phone=" + phone + ", email=" + email + ", datejoin=" + datejoin + ", gender=" + gender
-				+ "]";
+				+ ", specialize=" + specialize + ", phone=" + phone + ", email=" + email + ", datejoin=" + datejoin
+				+ ", gender=" + gender + "]";
 	}
+
 }

@@ -58,16 +58,14 @@ public class BranchManager extends JInternalFrame {
 	private JMenuItem mntmEdit;
 	private JMenuItem mntmDelete;
 	private JMenuItem mntmReload;
-	private String userLoginId;
 	private int i;
 	private List<Branch> list = new ArrayList<Branch>();
 	private JButton btnLoadAll;
-	private CurrentUser cuser = new CurrentUser();
+	private CurrentUser cuser; // = new CurrentUser();
 	
 	public BranchManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
-		userLoginId = this.cuser.getUsername();
 		setBounds(0, 0, 1000, 475);
 		
 		btnAdd = new JButton("Add");
@@ -192,11 +190,11 @@ public class BranchManager extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
-		list = new BaoBranch().getAll(userLoginId, false);
+		list = new BaoBranch().getAll(cuser.getUsername(), false);
 		loadListToTable();
 	}
 	protected void btnLoadAllActionPerformed(ActionEvent e) {
-		list = new BaoBranch().getAll(userLoginId, true);
+		list = new BaoBranch().getAll(cuser.getUsername(), true);
 		loadListToTable();
 	}
 	

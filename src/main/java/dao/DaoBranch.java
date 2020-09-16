@@ -36,7 +36,6 @@ public class DaoBranch {
 	}
 	
 	public List<Branch> getall(String userLoginID, boolean getall) {
-		
 		try (
 				Connection con = DatabaseConnect.getConnection();
 				CallableStatement cs = con.prepareCall("{call sproc_get_branch(?,?)}")
@@ -50,6 +49,7 @@ public class DaoBranch {
 				list.add(new Branch(resultSet.getString("id"), resultSet.getString("name"), resultSet.getBoolean("status")));
 			}	
 		} catch (Exception e) {
+			
 			rsmess = new ResultsMessage(-1,e.getMessage());
 		}
 		return list;

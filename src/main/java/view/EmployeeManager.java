@@ -67,6 +67,7 @@ public class EmployeeManager extends JInternalFrame {
 	private JButton btnLoadAll;
 	private CurrentUser cuser = new CurrentUser();
 	
+//	public EmployeeManager() {
 	public EmployeeManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
@@ -149,15 +150,15 @@ public class EmployeeManager extends JInternalFrame {
 					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnDelete)
 					.addGap(18)
-					.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(txtFilter, 319, 319, 319)
+					.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
 					.addGap(91))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE))
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1002, Short.MAX_VALUE))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -169,9 +170,9 @@ public class EmployeeManager extends JInternalFrame {
 						.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnLoad)
 						.addComponent(btnEdit)
-						.addComponent(btnDelete)
 						.addComponent(btnAdd)
-						.addComponent(btnLoadAll))
+						.addComponent(btnLoadAll)
+						.addComponent(btnDelete))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 371, GroupLayout.PREFERRED_SIZE))
 		);
@@ -185,8 +186,7 @@ public class EmployeeManager extends JInternalFrame {
 		    public void mousePressed(MouseEvent e) {
 		        doubleClickRowOnTable(e);
 		    }
-		});
-//		
+		});	
 //		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI());
 //		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
 //		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
@@ -201,7 +201,7 @@ public class EmployeeManager extends JInternalFrame {
 		list = new BaoEmployee().getAll(cuser.getUsername(), true);
 		loadListToTable();
 	}
-//	 int type, String id, DepartmentManager dm, int index, CurrentUser cuser
+
 	protected void btnAddActionPerformed(ActionEvent e) {
 		new AddEmployee(1, null, this, 0, cuser);
 	}
@@ -228,7 +228,7 @@ public class EmployeeManager extends JInternalFrame {
 				String id = (String) table.getValueAt(row, 1);
 				int confirm = JOptionPane.showConfirmDialog(this, "Confirm delete ID: " + id, "Confirm", JOptionPane.YES_NO_OPTION);
 				if(confirm == JOptionPane.YES_OPTION){
-					ResultsMessage rm = new BaoDepartment().delete(id);
+					ResultsMessage rm = new BaoEmployee().delete(id);
 					int index = (int) table.getValueAt(row, 0);
 					rm.showMessage(null);
 					if(rm.getNum()>0) {
@@ -254,6 +254,7 @@ public class EmployeeManager extends JInternalFrame {
 		defaultTable.addColumn("Gender");
 		defaultTable.addColumn("Department");
 		defaultTable.addColumn("Position");
+		defaultTable.addColumn("Address");
 		defaultTable.addColumn("Education");
 		defaultTable.addColumn("Specialize");
 		defaultTable.addColumn("Phone");
@@ -363,7 +364,7 @@ public class EmployeeManager extends JInternalFrame {
         Point point = e.getPoint();
         int row = table.rowAtPoint(point);
         if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-//        	new AddEmplyee(2,(String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser);
+        	new AddEmployee(3,(String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser);
         }
 	}
 	
