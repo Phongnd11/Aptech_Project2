@@ -16,7 +16,6 @@ import helper.SetTileFrame;
 import modal.ComboItem;
 import modal.EmployeeView;
 import modal.ListComboItem;
-import modal.ListGender;
 import modal.ResultsMessage;
 
 import javax.swing.GroupLayout;
@@ -82,31 +81,8 @@ public class AddEmployee extends JFrame {
 	private JComboBox cbGender;
 	private EmployeeManager em;
 	private int index;
-	
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					AddEmployee frame = new AddEmployee();
-//					frame.setUndecorated(true);
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
-//	public AddEmployee(int type, String id, DepartmentManager dm, int index, CurrentUser cuser){	
-//	}
-//	public AddEmployee() {
+	public AddEmployee() {}
 	public AddEmployee(int type, String id, EmployeeManager em, int index, CurrentUser cuser) {
 		this.type = type;
 		this.id = id;
@@ -369,7 +345,7 @@ public class AddEmployee extends JFrame {
 		if(emp.getId() != null) {
 			txtID.setText(emp.getId());
 			txtName.setText(emp.getName());
-			cbGender.setSelectedIndex(new ListComboItem().findIdToIndex(emp.getGender()));
+			cbGender.setSelectedIndex(new ListComboItem(listGender).findIdToIndex(emp.getGender()));
 			cbxDepartment.setSelectedIndex(new ListComboItem(listCBDepartment).findIdToIndex(emp.getDepartment_id()));
 			cbxPosition.setSelectedIndex(new ListComboItem(listCBPosition).findIdToIndex(emp.getPosition_id()));
 			txtAddress.setText(emp.getAddress());
@@ -419,14 +395,14 @@ public class AddEmployee extends JFrame {
 	}
 	
 	private void comboBoxSetValue2() {
-		listCBPosition = new BaoGetComboBox().getListAll("Position", cuser.getUsername());
+		listCBPosition = new BaoGetComboBox().getList("Position", cuser.getUsername());
 		for (ComboItem item :listCBPosition) {
 			cbxPosition.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
 	}
 	
 	private void comboBoxSetValue3() {
-		listGender = new BaoGetComboBox().getListGender();
+		listGender = new BaoGetComboBox().getList("Gender", cuser.getUsername());
 		for (ComboItem item :listGender) {
 			cbGender.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -442,15 +418,17 @@ public class AddEmployee extends JFrame {
 			String gender = cbGender.getSelectedItem() == null ? null : ((ComboItem) cbGender.getSelectedItem()).getId();
 			if(type==1) {
 				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), ((ComboItem) cbxDepartment.getSelectedItem()).getId() , ((ComboItem) cbxPosition.getSelectedItem()).getId(), true,
-						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender);
+						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender, null);
 				ResultsMessage rm = new BaoEmployee().insert(empV);
-//				update
+				if(rm.getNum()>0)
+					em.addNewToTable(empV.getId());
 				rm.showMessage(this);
 			} else {
 				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), ((ComboItem) cbxDepartment.getSelectedItem()).getId() , ((ComboItem) cbxPosition.getSelectedItem()).getId(), chbStatus.isSelected(),
-						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender);
+						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender, null);
 				ResultsMessage rm = new BaoEmployee().update(empV);
-//				update
+				if(rm.getNum()>0)
+					em.updateListFromID(index, empV.getId());
 				rm.showMessage(this);
 			}
 		}	

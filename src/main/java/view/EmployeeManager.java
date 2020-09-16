@@ -15,12 +15,15 @@ import javax.swing.table.DefaultTableModel;
 import bao.BaoBranch;
 import bao.BaoDepartment;
 import bao.BaoEmployee;
+import bao.BaoGetComboBox;
 import bao.BaoProject;
 import entity.Branch;
 import entity.CurrentUser;
 import entity.Department;
 import entity.GetProject;
+import modal.ComboItem;
 import modal.EmployeeView;
+import modal.Gender;
 import modal.ResultsMessage;
 
 import java.awt.event.ActionListener;
@@ -31,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -67,7 +71,7 @@ public class EmployeeManager extends JInternalFrame {
 	private JButton btnLoadAll;
 	private CurrentUser cuser = new CurrentUser();
 	
-//	public EmployeeManager() {
+	public EmployeeManager() {}
 	public EmployeeManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
@@ -194,8 +198,9 @@ public class EmployeeManager extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
-		list = new BaoEmployee().getAll(cuser.getUsername(), false);
-		loadListToTable();
+//		list = new BaoEmployee().getAll(cuser.getUsername(), false);
+//		loadListToTable();
+		new Sys_FrameLoadEmployee(this, cuser).setVisible(true);
 	}
 	protected void btnLoadAllActionPerformed(ActionEvent e) {
 		list = new BaoEmployee().getAll(cuser.getUsername(), true);
@@ -221,8 +226,7 @@ public class EmployeeManager extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-
-			if(!(boolean) table.getValueAt(row, 4)) {
+			if(!(boolean) table.getValueAt(row, 12)) {
 				JOptionPane.showMessageDialog(this, "Status is fasle!", "Error", JOptionPane.ERROR_MESSAGE);
 			}else {
 				String id = (String) table.getValueAt(row, 1);
@@ -237,6 +241,11 @@ public class EmployeeManager extends JInternalFrame {
 				}
 			}
 		}
+	}
+	
+	public void loadListToTableFromList(List<EmployeeView> list) {
+		this.list = list;
+		loadListToTable();
 	}
 	
 	private void loadListToTable() {
@@ -265,7 +274,7 @@ public class EmployeeManager extends JInternalFrame {
 		
 		for(EmployeeView emp : list) {
 			defaultTable.addRow(new Object[] {
-				++i, emp.getId(), emp.getName(), emp.getGender(), emp.getDepartment_id(), emp.getPosition_id(), emp.getAddress(),
+				++i, emp.getId(), emp.getName(), emp.getGenderName(), emp.getDepartment_id(), emp.getPosition_id(), emp.getAddress(),
 				emp.getEducation(), emp.getSpecialize(), emp.getPhone(), emp.getEmail(), emp.getDatejoin(), emp.isStatus()
 			});
 		}
@@ -279,20 +288,21 @@ public class EmployeeManager extends JInternalFrame {
 	}
 	
 	 public void addNewToTable(String id) {
-//		Department dep = new BaoDepartment().getFromId(id);
-//    	list.add(dep);
-//    	DefaultTableModel model = (DefaultTableModel) table.getModel();
-//    	model.addRow(new Object[] {
-//    			++i, dep.getId(), dep.getName(), dep.getBranch_id(), dep.isStatus()
-//		});
+		EmployeeView emp = new BaoEmployee().getFromId(id);
+    	list.add(emp);
+    	DefaultTableModel model = (DefaultTableModel) table.getModel();
+    	model.addRow(new Object[] {
+    			++i, emp.getId(), emp.getName(), emp.getGenderName(), emp.getDepartment_id(), emp.getPosition_id(), emp.getAddress(),
+				emp.getEducation(), emp.getSpecialize(), emp.getPhone(), emp.getEmail(), emp.getDatejoin(), emp.isStatus()
+		});
 	 }
 	 
 	public void updateListFromID(int index, String id) {
-//		Department dep = new BaoDepartment().getFromId(id);
-//		list.set(index, dep);
-//		loadListToTable();
+		EmployeeView emp = new BaoEmployee().getFromId(id);
+		list.set(index, emp);
+		loadListToTable();
 	}
-	
+
 	private void createPopupMenu() {
 		mntmReload = new JMenuItem("Load");
 		mntmReload.addActionListener(new ActionListener() {

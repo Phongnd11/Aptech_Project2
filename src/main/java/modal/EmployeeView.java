@@ -16,10 +16,11 @@ public class EmployeeView {
 	private String email;
 	private LocalDate datejoin;
 	private String gender;
+	private String genderName;
 	
 	public EmployeeView() {}
 	public EmployeeView(String id, String name, String department_id, String position_id, boolean status,
-			String address, String education, String specialize, String phone, String email, LocalDate datejoin, String gender) {
+			String address, String education, String specialize, String phone, String email, LocalDate datejoin, String gender, String genderName) {
 		this.id = id;
 		this.name = name;
 		this.department_id = department_id;
@@ -32,6 +33,7 @@ public class EmployeeView {
 		this.email = email;
 		this.datejoin = datejoin;
 		this.gender = gender;
+		this.genderName = genderName;
 	}
 	
 	public String getId() {
@@ -107,12 +109,19 @@ public class EmployeeView {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
+	public String getGenderName() {
+		return genderName;
+	}
+	public void setGenderName(String genderName) {
+		this.genderName = genderName;
+	}
 	@Override
 	public String toString() {
 		return "EmployeeView [id=" + id + ", name=" + name + ", department_id=" + department_id + ", position_id="
 				+ position_id + ", status=" + status + ", address=" + address + ", education=" + education
 				+ ", specialize=" + specialize + ", phone=" + phone + ", email=" + email + ", datejoin=" + datejoin
-				+ ", gender=" + gender + "]";
+				+ ", gender=" + gender + ",genderName=" + genderName + "]";
 	}
 
 }

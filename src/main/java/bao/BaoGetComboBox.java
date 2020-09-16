@@ -18,10 +18,10 @@ public class BaoGetComboBox {
 		return new DaoGetComboBox().getCB(true, exspres, userLoginID);
 	}
 	
-	public List<ComboItem> getListGender(){	
-		list.add(new ComboItem("0","Famale"));
-		list.add(new ComboItem("1","Male"));
-		list.add(new ComboItem("2","Order"));
-		return list;
-	}
+//	public List<ComboItem> getListGender(){	
+////		list.add(new ComboItem("0","Famale"));
+////		list.add(new ComboItem("1","Male"));
+////		list.add(new ComboItem("2","Order"));
+//		return new;
+//	}
 }

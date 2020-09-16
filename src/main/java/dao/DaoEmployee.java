@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class DaoEmployee {
 			rs.next();
 			empV = new EmployeeView(rs.getString("id"), rs.getString("name"), rs.getString("department_id"), rs.getString("position_id"), rs.getBoolean("status"),
 					rs.getString("address"), rs.getString("education"), rs.getString("specialize"), rs.getString("phone"), rs.getString("email"),
-					rs.getDate("datejoin") ==null ? null : rs.getDate("datejoin").toLocalDate(), rs.getString("gender"));
+					rs.getDate("datejoin") ==null ? null : rs.getDate("datejoin").toLocalDate(), rs.getString("gender"), rs.getNString("gender_name"));
 			
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());
@@ -51,7 +52,7 @@ public class DaoEmployee {
 			while(rs.next()) {
 				list.add(new EmployeeView(rs.getString("id"), rs.getString("name"), rs.getString("department_id"), rs.getString("position_id"), rs.getBoolean("status"),
 						rs.getString("address"), rs.getString("education"), rs.getString("specialize"), rs.getString("phone"), rs.getString("email"),
-						rs.getDate("datejoin") ==null ? null : rs.getDate("datejoin").toLocalDate(), rs.getString("gender")));
+						rs.getDate("datejoin") ==null ? null : rs.getDate("datejoin").toLocalDate(), rs.getString("gender"), rs.getNString("gender_name")));
 			}
 			
 		} catch (Exception e) {
@@ -59,7 +60,40 @@ public class DaoEmployee {
 		}
 		return list;
 	}
-		
+	
+	public List<EmployeeView> getFormLoad(String id, String name, boolean status, LocalDate date1, LocalDate date2,
+			String edu, String special, String position, String department, String branch, String userLoginId) {
+		try (
+				Connection con = DatabaseConnect.getConnection();
+				CallableStatement cs = con.prepareCall("{call sproc_getFormLoad_employeeView(?,?,?,?,?,?,?,?,?,?,?)}")
+				)
+		{
+			cs.setString(1, id);
+			cs.setString(2, name);
+			cs.setBoolean(3, status);
+			cs.setDate(4, java.sql.Date.valueOf(date1));
+			cs.setDate(5, java.sql.Date.valueOf(date2));
+			cs.setString(6, edu);
+			cs.setString(7, special);
+			cs.setString(8, position);
+			cs.setString(9, department);
+			cs.setString(10, branch);
+			cs.setNString(11, userLoginId);
+			
+			cs.executeQuery();
+			ResultSet rs = cs.getResultSet();
+			while(rs.next()) {
+				list.add(new EmployeeView(rs.getString("id"), rs.getString("name"), rs.getString("department_id"), rs.getString("position_id"), rs.getBoolean("status"),
+						rs.getString("address"), rs.getString("education"), rs.getString("specialize"), rs.getString("phone"), rs.getString("email"),
+						rs.getDate("datejoin") ==null ? null : rs.getDate("datejoin").toLocalDate(), rs.getString("gender"), rs.getNString("gender_name")));
+			}
+			
+		} catch (Exception e) {
+			new ResultsMessage(-1,e.getMessage()).showMessage(null);
+		}
+		return list;
+	}
+	
 	public ResultsMessage insert(EmployeeView obj) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
@@ -167,4 +201,6 @@ public class DaoEmployee {
 		}
 		return rsmess;
 	}
+
+
 }
