@@ -3,6 +3,7 @@ package dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,14 +99,26 @@ public class DaoAssignment {
 	public ResultsMessage delete(int id) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_assignment_detele(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_assignment_detele(?,?)}")
 			)
 		{
 			cs.setInt(1, id);
+			cs.registerOutParameter(2, Types.BIT); 
+			cs.executeUpdate();
 			
-			rsmess = new ResultsMessage(cs.executeUpdate(),"Success!");
+			
+			if(cs.getBoolean(2)) {
+				rsmess.setNum(1);
+				rsmess.setMessage("Deleted!");
+			}	
+			else {
+				rsmess.setNum(2);
+				rsmess.setMessage("Set status is false!");
+			}
+            
 		} catch (Exception e) {
-			rsmess = new ResultsMessage(-1,e.getMessage());
+			rsmess.setNum(-1);
+			rsmess.setMessage(e.getMessage());
 		}
 		return rsmess;
 	}

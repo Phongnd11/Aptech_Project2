@@ -227,9 +227,10 @@ public class BranchManager extends JInternalFrame {
 					ResultsMessage rm = new BaoBranch().delete(id);
 					int index = (int) table.getValueAt(row, 0);
 					rm.showMessage(null);
-					if(rm.getNum()>0) {
+					if(rm.getNum() == 2)
 						updateListNonDB(index -1, id);
-					}
+					if(rm.getNum() == 1)
+						btnLoadActionPerformed(e);
 				}
 			}
 		}

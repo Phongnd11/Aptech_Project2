@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +69,13 @@ public class DaoEmployee {
 				CallableStatement cs = con.prepareCall("{call sproc_getFormLoad_employeeView(?,?,?,?,?,?,?,?,?,?,?)}")
 				)
 		{
+			Date d1 = date1 == null ? null : java.sql.Date.valueOf(date1);
+			Date d2 = date2 == null ? null : java.sql.Date.valueOf(date2);
 			cs.setString(1, id);
 			cs.setString(2, name);
 			cs.setBoolean(3, status);
-			cs.setDate(4, java.sql.Date.valueOf(date1));
-			cs.setDate(5, java.sql.Date.valueOf(date2));
+			cs.setDate(4, d1);
+			cs.setDate(5, d2);
 			cs.setString(6, edu);
 			cs.setString(7, special);
 			cs.setString(8, position);
@@ -191,13 +194,26 @@ public class DaoEmployee {
 	public ResultsMessage delete(String id) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_employee_delete(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_employee_delete(?,?)}")
 			)
 		{
 			cs.setString(1, id);
-			rsmess = new ResultsMessage(cs.executeUpdate(),"Success!");
+			cs.registerOutParameter(2, Types.BIT); 
+			cs.executeUpdate();
+			
+			
+			if(cs.getBoolean(2)) {
+				rsmess.setNum(1);
+				rsmess.setMessage("Deleted!");
+			}	
+			else {
+				rsmess.setNum(2);
+				rsmess.setMessage("Set status is false!");
+			}
+            
 		} catch (Exception e) {
-			rsmess = new ResultsMessage(-1,e.getMessage());
+			rsmess.setNum(-1);
+			rsmess.setMessage(e.getMessage());
 		}
 		return rsmess;
 	}
