@@ -1,7 +1,9 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import bao.BaoBranch;
 import entity.Branch;
+import helper.SetTileFrame;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,7 +22,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ProjectTypeInsert extends JFrame {
+public class AddProjectType extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblID;
@@ -29,27 +32,9 @@ public class ProjectTypeInsert extends JFrame {
 	private JButton btnSave;
 	private JButton btnCancel;
 	private JLabel lblTitle;
+	private int type;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ProjectTypeInsert frame = new ProjectTypeInsert();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public ProjectTypeInsert() {
+	public AddProjectType() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -75,7 +60,10 @@ public class ProjectTypeInsert extends JFrame {
 		
 		btnCancel = new JButton("Cancel");
 		
-		lblTitle = new JLabel("New label");
+		lblTitle = new JLabel(SetTileFrame.getTitle(this.type, "Project Type"));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTitle.setForeground(Color.BLUE);
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)

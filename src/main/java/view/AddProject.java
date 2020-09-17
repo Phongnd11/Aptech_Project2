@@ -14,6 +14,7 @@ import entity.GetProject;
 import entity.Position;
 import entity.Project;
 import helper.GetIndexComboID;
+import helper.SetTileFrame;
 import modal.ComboItem;
 import modal.ListComboItem;
 import modal.ResultsMessage;
@@ -37,6 +38,7 @@ import javax.swing.JTextPane;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JCheckBox;
+import java.awt.Color;
 
 public class AddProject extends JFrame {
 
@@ -66,7 +68,7 @@ public class AddProject extends JFrame {
 	private ProjectManager pm;
 	private int indexParent;
 	private String userLoginID;
-
+	private JLabel lblTitle;
 
 	public AddProject(int type, String id, ProjectManager pm, int indexParent) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -138,6 +140,10 @@ public class AddProject extends JFrame {
 		chkStatus = new JCheckBox("Status");
 		chkStatus.setVisible(false);
 		
+		lblTitle = new JLabel(SetTileFrame.getTitle(this.type, "Project"));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTitle.setForeground(Color.BLUE);
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -175,11 +181,16 @@ public class AddProject extends JFrame {
 									.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE))
 								.addComponent(chkStatus))))
 					.addGap(113))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(43)
+					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 418, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(76, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(19)
+					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))

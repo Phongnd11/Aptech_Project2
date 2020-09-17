@@ -79,24 +79,7 @@ public class Admin extends JFrame {
 	private JButton btnDepartment;
 	private CurrentUser cuser = new CurrentUser();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Admin frame = new Admin(null);
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-
+	public Admin() {}
 	public Admin(CurrentUser cuser) {
 		this.cuser=cuser;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

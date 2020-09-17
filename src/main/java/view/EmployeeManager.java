@@ -130,7 +130,7 @@ public class EmployeeManager extends JInternalFrame {
 		
 		scrollPane = new JScrollPane();
 		
-		lblNewLabel = new JLabel("Department Manager");
+		lblNewLabel = new JLabel("Employee Manager");
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -238,7 +238,7 @@ public class EmployeeManager extends JInternalFrame {
 					if(rm.getNum() == 2)
 						updateListFromID(index -1, id);
 					if(rm.getNum() == 1)
-						btnLoadActionPerformed(e);
+						btnLoadAllActionPerformed(e);
 				}
 			}
 		}

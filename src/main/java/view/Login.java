@@ -51,9 +51,6 @@ public class Login extends JFrame {
 	private JLabel lblBg;
 	private JCheckBox chbShowPass;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,9 +65,6 @@ public class Login extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1920, 1080);
@@ -204,6 +198,7 @@ public class Login extends JFrame {
 		
 		txtUser.setText("admin");
 		txtPassword.setText("admin");
+		txtPassword.setEchoChar('*');
 	}
 	protected void btnExitLoginActionPerformed(ActionEvent e) {
 		System.exit(0);

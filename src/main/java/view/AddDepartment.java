@@ -18,6 +18,7 @@ import entity.Department;
 import entity.Position;
 import helper.GetArrayIndexJList;
 import helper.GetIndexComboID;
+import helper.SetTileFrame;
 import modal.ComboItem;
 import modal.ResultsMessage;
 
@@ -34,6 +35,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JCheckBox;
+import java.awt.Font;
+import java.awt.Color;
 
 public class AddDepartment extends JFrame {
 
@@ -54,6 +57,7 @@ public class AddDepartment extends JFrame {
 	private DepartmentManager dm;
 	private int index;
 	private JCheckBox chkStatus;
+	private JLabel lblTitle;
 
 	public AddDepartment() {}
 	public AddDepartment(int type, String id, DepartmentManager dm, int index, CurrentUser cuser) {
@@ -107,41 +111,52 @@ public class AddDepartment extends JFrame {
 		chkStatus = new JCheckBox("Status");
 		chkStatus.setVisible(false);
 		
+		lblTitle = new JLabel(SetTileFrame.getTitle(this.type, "Position"));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTitle.setForeground(Color.BLUE);
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(24)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblName, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-							.addGap(34)
-							.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblBranchId, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGap(24)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-									.addGap(31)
-									.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+									.addComponent(lblName, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(cbBranch, 0, 251, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnNew, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-									.addGap(12))
-								.addComponent(chkStatus))))
-					.addGap(26))
+									.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+									.addGap(34)
+									.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblBranchId, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+											.addGap(31)
+											.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(18)
+											.addComponent(cbBranch, 0, 251, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnNew, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+											.addGap(12))
+										.addComponent(chkStatus)))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 418, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(16, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(62)
+					.addContainerGap()
+					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+					.addGap(39)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(3)

@@ -61,14 +61,12 @@ public class PositionManager extends JInternalFrame {
 	private JMenuItem mntmDelete;
 	private JMenuItem mntmReload;
 	private int i;
-	private List<Position> list = new ArrayList<Position>();
+	private List<Position> list;
 	private JButton btnLoadAll;
 	private CurrentUser cuser = new CurrentUser();
 	
 	public PositionManager(CurrentUser cuser) {
-		
 		this.cuser = cuser;
-		
 		setBounds(0, 0, 1000, 475);
 		
 		btnAdd = new JButton("Add");
@@ -193,6 +191,7 @@ public class PositionManager extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
+		
 		list = new BaoPosition().getAll(cuser.getUsername(), false);
 		loadListToTable();
 	}
@@ -221,7 +220,7 @@ public class PositionManager extends JInternalFrame {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
 
-			if(!(boolean) table.getValueAt(row, 4)) {
+			if(!(boolean) table.getValueAt(row, 6)) {
 				JOptionPane.showMessageDialog(this, "Status is fasle!", "Error", JOptionPane.ERROR_MESSAGE);
 			}else {
 				String id = (String) table.getValueAt(row, 1);

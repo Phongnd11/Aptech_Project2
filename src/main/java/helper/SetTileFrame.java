@@ -10,8 +10,11 @@ public class SetTileFrame {
 			case 2: {
 				title = "Edit " + name; break;
 			}
+			case 3: {
+				title = "View " + name; break;
+			}
 			default:
-				title = "defatul"; break;
+				title = " "; break;
 		}
 		return title;
 	}

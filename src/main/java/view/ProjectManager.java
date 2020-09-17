@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Point;
 
 import javax.swing.JInternalFrame;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,6 +42,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.KeyAdapter;
 import java.awt.event.FocusAdapter;
+import javax.swing.JLabel;
 
 
 
@@ -58,6 +61,7 @@ public class ProjectManager extends JInternalFrame {
 	private JMenuItem mntmReload;
 	private List<GetProject> list;
 	private int i=0;
+	private JLabel lblNewLabel;
 
 	public ProjectManager() {
 		setBounds(0, 0, 1000, 475);
@@ -111,12 +115,18 @@ public class ProjectManager extends JInternalFrame {
 		txtFilter.setColumns(10);
 		
 		scrollPane = new JScrollPane();
+		
+		lblNewLabel = new JLabel("Project Manager");
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 	
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(11)
+					.addContainerGap()
 					.addComponent(btnLoad)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnAdd)
@@ -126,21 +136,26 @@ public class ProjectManager extends JInternalFrame {
 					.addComponent(btnDelete)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE)
-					.addGap(316))
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+					.addContainerGap(321, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAdd)
 						.addComponent(btnUpdate)
 						.addComponent(btnDelete)
 						.addComponent(btnLoad)
 						.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 366, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		tblProject = new JTable();
