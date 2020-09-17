@@ -10,7 +10,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import bao.BaoEmp_info;
+import bao.BaoEmployee;
+import entity.CurrentUser;
 import entity.Emp_info;
+import modal.EmployeeView;
 
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -51,7 +54,7 @@ public class User extends JFrame {
 	private JLabel lblDepartment;
 	private JDesktopPane desktopPane_1;
 	private JLabel lblNewLabel_6;
-	private JButton btnNotification;
+	private JButton btnMyJob;
 	private JButton btnPersonalDetails;
 	private JButton btnProject;
 	private JButton btnTransfer;
@@ -60,30 +63,11 @@ public class User extends JFrame {
 	private JPanel panel;
 	private int x = 0;
 	private JDesktopPane desktopPane_2;
-	private JButton btnNewButton;
+	private JButton btnSignOut;
+	private CurrentUser cuser;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					User frame = new User();
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public User() {	 
-		
+	public User(CurrentUser cuser) {
+		this.cuser = cuser ;		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1920, 1080);
 		contentPane = new JPanel();
@@ -120,19 +104,19 @@ public class User extends JFrame {
 		desktopPane_1.add(lblNewLabel_6);
 		
 // JButton JFrame User
-		btnNotification = new JButton("Notification");
-		btnNotification.addActionListener(new ActionListener() {
+		btnMyJob = new JButton("My Job");
+		btnMyJob.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNotificationActionPerformed(e);
+				btnMyJobActionPerformed(e);
 			}
 		});
-		btnNotification.setBounds(74, 112, 170, 50);
-		desktopPane_1.add(btnNotification);
+		btnMyJob.setBounds(74, 112, 170, 50);
+		desktopPane_1.add(btnMyJob);
 		
 		btnPersonalDetails = new JButton("Personal details");
 		btnPersonalDetails.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButtonActionPerformed(e);
+				btnPersonalDetailsActionPerformed(e);
 			}
 		});
 		btnPersonalDetails.setBounds(297, 112, 170, 50);
@@ -141,16 +125,16 @@ public class User extends JFrame {
 		btnProject = new JButton("Project");
 		btnProject.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_1ActionPerformed(e);
+				btnProjectActionPerformed(e);
 			}
 		});
-		btnProject.setBounds(513, 112, 170, 50);
+		btnProject.setBounds(509, 112, 170, 50);
 		desktopPane_1.add(btnProject);
 		
 		btnTransfer = new JButton("Transfer");
 		btnTransfer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_2ActionPerformed(e);
+				btnTransferActionPerformed(e);
 			}
 		});
 		btnTransfer.setBounds(745, 112, 170, 50);
@@ -262,10 +246,14 @@ public class User extends JFrame {
 		lblDepartment.setBounds(106, 388, 157, 24);
 		desktopPane.add(lblDepartment);
 		
-		btnNewButton = new JButton("Sign Out");
-		btnNewButton.setBounds(10, 430, 256, 30);
-		desktopPane.add(btnNewButton);
-		
+		btnSignOut = new JButton("Sign Out");
+		btnSignOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				btnSignOutActionPerformed(e);
+			}
+		});
+		btnSignOut.setBounds(10, 429, 253, 30);
+		desktopPane.add(btnSignOut);
 		
 		lblBg1 = new JLabel("New label");
 		lblBg1.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -274,60 +262,60 @@ public class User extends JFrame {
 		lblBg1.setIcon(new ImageIcon(img1));
 		desktopPane.add(lblBg1);
 		
-//		Emp_info emp = new BaoEmp_info().getEmp("emp01");
-//		lblName.setText(emp.getName());
-//		lblPosition.setText(emp.getPosition_id());
-//		lblDepartment.setText(emp.getDepartment_id());
-	
+		EmployeeView emp = new BaoEmployee().getFromId(cuser.getUsername());
+		lblName.setText(emp.getName());
+		lblPosition.setText(emp.getPosition_id());
+		lblDepartment.setText(emp.getDepartment_id());
 		
 		contentPane.setLayout(gl_contentPane);
 	}
-	protected void btnNotificationActionPerformed(ActionEvent e) {
+	protected void btnMyJobActionPerformed(ActionEvent e) {
 		if(x != 1) {
-//			panel.setVisible(true);
-//			desktopPane_2.removeAll();
-//			UserNotification sub = new UserNotification();
-//			sub.setVisible(true);
-//			desktopPane_2.add(sub);
-//			x = 1;
+			panel.setVisible(true);
+			desktopPane_2.removeAll();
+			UserMyJob sub = new UserMyJob(cuser);
+			sub.setVisible(true);
+			desktopPane_2.add(sub);
+			x = 1;
 		}
-		
 	}
-	protected void btnNewButtonActionPerformed(ActionEvent e) {
+	protected void btnPersonalDetailsActionPerformed(ActionEvent e) {
 		if(x != 2) {
-//			panel.setVisible(true);
-//			desktopPane_2.removeAll();
-//			UserPersonalDetails sub = new UserPersonalDetails();
-//			sub.setVisible(true);
-//			desktopPane_2.add(sub);
+			panel.setVisible(true);
+			desktopPane_2.removeAll();
+			UserPersonalDetails sub = new UserPersonalDetails(cuser);
+			sub.setVisible(true);
+			desktopPane_2.add(sub);
 			x = 2;
 		}
 	}
-	protected void btnNewButton_1ActionPerformed(ActionEvent e) {
+	protected void btnProjectActionPerformed(ActionEvent e) {
 		if(x != 3) {
-//			panel.setVisible(true);
-//			desktopPane_2.removeAll();
-//			UserProject sub = new UserProject();
-//			sub.setVisible(true);
-//			desktopPane_2.add(sub);
+			panel.setVisible(true);
+			desktopPane_2.removeAll();
+			UserProject sub = new UserProject(cuser);
+			sub.setVisible(true);
+			desktopPane_2.add(sub);
 			x = 3;
 		}
 	}
-	protected void btnNewButton_2ActionPerformed(ActionEvent e) {
+	protected void btnTransferActionPerformed(ActionEvent e) {
 		if(x != 4) {
-//			panel.setVisible(true);
-//			desktopPane_2.removeAll();
-//			UserTransfer sub = new UserTransfer();
-//			sub.setVisible(true);
-//			desktopPane_2.add(sub);
+			panel.setVisible(true);
+			desktopPane_2.removeAll();
+			UserTransfer sub = new UserTransfer(cuser);
+			sub.setVisible(true);
+			desktopPane_2.add(sub);
 			x = 4;
 		}
 	}
-	
-	
-
+	protected void btnSignOutActionPerformed(ActionEvent e) {
+		Login login = new Login();
+		login.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		login.setVisible(true);
+		this.setVisible(false);
 		
+		
+	}
 	
-	
-
 }

@@ -1,8 +1,9 @@
 package entity;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
-public class Emp_info {
+public class Emp_info  extends Employee{
 	protected String employee_id;
 	protected String address;
 	protected String education;
@@ -11,6 +12,7 @@ public class Emp_info {
 	protected String email;
 	protected Timestamp datejoin;
 	
+
 	public Emp_info() {};
 	public Emp_info(String employee_id, String address, String education, String specialize, String phone, String email,
 			Timestamp datejoin) {

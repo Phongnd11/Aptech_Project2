@@ -365,6 +365,14 @@ public class AddEmployee extends JFrame {
 				btnSave.setText("Edit");
 				visibleFrame(false);
 			}
+			if(type==4) {
+				txtID.setEnabled(true);
+				txtName.setEnabled(true);
+				cbxPosition.setEnabled(true);
+				calDate.setEnabled(true);
+				chbStatus.setEnabled(true);
+				cbxDepartment.setEnabled(true);
+			}
 		}
 	}
 	
@@ -416,11 +424,11 @@ public class AddEmployee extends JFrame {
 		}else {
 			LocalDate datejoin = calDate.getDate() == null ? null : calDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			String gender = cbGender.getSelectedItem() == null ? null : ((ComboItem) cbGender.getSelectedItem()).getId();
-			if(type==1) {
+			if(type==1 || type == 4) {
 				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), ((ComboItem) cbxDepartment.getSelectedItem()).getId() , ((ComboItem) cbxPosition.getSelectedItem()).getId(), true,
 						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender, null);
 				ResultsMessage rm = new BaoEmployee().insert(empV);
-				if(rm.getNum()>0)
+				if(rm.getNum()>0 && type!=4)
 					em.addNewToTable(empV.getId());
 				rm.showMessage(this);
 			} else {

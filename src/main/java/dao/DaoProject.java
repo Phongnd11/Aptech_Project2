@@ -15,6 +15,7 @@ import common.DatabaseConnect;
 import entity.GetProject;
 import entity.Position;
 import entity.Project;
+import entity.Project_branch;
 import modal.ResultsMessage;
 
 public class DaoProject {
@@ -118,6 +119,30 @@ public class DaoProject {
 			new ResultsMessage(-1,e.getMessage()).showMessage(null);
 		}
 		return project;
+	}
+	
+	public List<Project_branch> getProjectBranch(String id){
+		List<Project_branch> listPro = new ArrayList<Project_branch>();
+		try (
+				Connection con = DatabaseConnect.getConnection();
+				CallableStatement cs = con.prepareCall("{call sproc_get_project_branch(?)}")
+			)
+		{
+			
+			cs.setString(1, id);
+			cs.executeQuery();
+			ResultSet rs = cs.getResultSet();
+			while(rs.next()) {
+				listPro.add(new Project_branch(rs.getString("id"), rs.getNString("name_project"), rs.getNString("name_project_type"),
+						rs.getNString("description"), rs.getDate("datenew") == null ? null : rs.getDate("datenew").toLocalDate()));
+				
+			}
+		} catch (Exception e) {
+			e.getMessage();
+			JOptionPane.showMessageDialog(null, "Fail: "  +e.toString(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return listPro;
 	}
 	
 	public ResultsMessage insert(Project obj) {

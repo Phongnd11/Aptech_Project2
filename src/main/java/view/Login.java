@@ -196,7 +196,7 @@ public class Login extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		
-		txtUser.setText("admin");
+		txtUser.setText("user");
 		txtPassword.setText("admin");
 		txtPassword.setEchoChar('*');
 	}
@@ -221,7 +221,10 @@ public class Login extends JFrame {
 	
 	private void getJFrame(CurrentUser cuser) {
 		if(!cuser.isAdmin() && cuser.getListBranch()==null && cuser.getListDepartment()==null) {
-			JOptionPane.showInternalMessageDialog(null, "USer");
+			User frameuser = new User(cuser);
+			frameuser.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			frameuser.setVisible(true);
+			this.setVisible(false);
 		}else {
 			new Admin(cuser).setVisible(true);
 		}

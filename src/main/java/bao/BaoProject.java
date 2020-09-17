@@ -7,6 +7,7 @@ import java.util.List;
 import dao.DaoProject;
 import entity.GetProject;
 import entity.Project;
+import entity.Project_branch;
 import modal.ResultsMessage;
 
 public class BaoProject {
@@ -38,5 +39,9 @@ public class BaoProject {
 	}
 	public ResultsMessage delete(String id) {
 		return new DaoProject().delete(id);
+	}
+	
+	public List<Project_branch> getProjectBrand(String id){
+		return new DaoProject().getProjectBranch(id);
 	}
 }

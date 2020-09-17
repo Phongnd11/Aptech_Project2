@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.DaoAssignment;
 import entity.Assignment;
+import entity.AssignmentUser;
 import modal.ResultsMessage;
 
 public class BaoAssignment {
@@ -25,5 +26,9 @@ public class BaoAssignment {
 	}
 	public ResultsMessage delete(int id) {
 		return new DaoAssignment().delete(id);
+	}
+	
+	public List<AssignmentUser> getAssignmentUser(String id){
+		return new DaoAssignment().getAssignmentUser(id);
 	}
 }

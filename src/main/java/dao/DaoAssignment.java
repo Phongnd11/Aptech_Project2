@@ -9,16 +9,18 @@ import java.util.List;
 
 import common.DatabaseConnect;
 import entity.Assignment;
+import entity.AssignmentUser;
 import entity.Position;
 import modal.ResultsMessage;
 
 public class DaoAssignment {
 	ResultsMessage rsmess = new ResultsMessage();
 	List<Assignment> list = new ArrayList<Assignment>();
+	List<AssignmentUser> list1 = new ArrayList<AssignmentUser>();
 	
 	public Assignment getfromId(String id) {
 		Assignment ass = new Assignment();
-		String sql = "SELECT * FROM Position WHERE id ='"+ id + "'";
+		String sql = "SELECT * FROM Assignment WHERE id ='"+ id + "'";
 		try (
 				Connection con = DatabaseConnect.getConnection();
 				var stmt = con.createStatement();
@@ -55,6 +57,27 @@ public class DaoAssignment {
 			rsmess = new ResultsMessage(-1,e.getMessage());
 		}
 		return list;
+	}
+	
+	public List<AssignmentUser> getAssignmentUser(String id){
+		
+		try (
+				Connection con = DatabaseConnect.getConnection();
+				CallableStatement cs = con.prepareCall("{call sproc_get_assignment_user(?)}")
+				)
+		{
+			cs.setString(1, id);
+			cs.executeQuery();
+			ResultSet rs = cs.getResultSet();
+			while(rs.next()) {
+				list1.add(new AssignmentUser(
+						rs.getInt("id"), rs.getNString("name_project"),  rs.getTimestamp("datejoin"), rs.getInt("done"), rs.getBoolean("status")
+				));
+			}
+		} catch (Exception e) {
+			rsmess = new ResultsMessage(-1,e.getMessage());
+		}
+		return list1;
 	}
 	
 	public ResultsMessage insert(Assignment obj) {
