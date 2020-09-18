@@ -46,7 +46,7 @@ public class Sys_FrameLoadBranch extends JFrame {
 
 	public Sys_FrameLoadBranch(int type, String id, AddDepartment fm, BranchManager bm, int index) {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 263);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

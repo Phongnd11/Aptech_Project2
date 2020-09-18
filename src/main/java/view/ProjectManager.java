@@ -67,7 +67,7 @@ public class ProjectManager extends JInternalFrame {
 	private CurrentUser cuser;
 
 	public ProjectManager(CurrentUser cuser) {
-		setBounds(0, 0, 1000, 475);
+		setBounds(-15, -27, 1030, 505);
 		this.cuser=cuser;
 		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
@@ -126,12 +126,11 @@ public class ProjectManager extends JInternalFrame {
 	
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
@@ -139,11 +138,13 @@ public class ProjectManager extends JInternalFrame {
 							.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
 							.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE)
 							.addGap(62))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE)
+								.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE))
 							.addContainerGap())))
 		);
 		groupLayout.setVerticalGroup(
@@ -159,7 +160,7 @@ public class ProjectManager extends JInternalFrame {
 						.addComponent(btnUpdate)
 						.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 360, GroupLayout.PREFERRED_SIZE))
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 386, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		tblProject = new JTable();

@@ -230,12 +230,12 @@ public class AddEmployee extends JFrame {
 						.addComponent(lblNewLabel_4)
 						.addComponent(cbxPosition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(calDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(13)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(chbStatus)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(calDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_9))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(13)
+					.addComponent(chbStatus)
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		

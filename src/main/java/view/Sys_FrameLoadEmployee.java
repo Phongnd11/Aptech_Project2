@@ -77,7 +77,7 @@ public class Sys_FrameLoadEmployee extends JFrame {
 
 	public Sys_FrameLoadEmployee(){}
 	public Sys_FrameLoadEmployee(EmployeeManager em, CurrentUser cuser) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 490);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

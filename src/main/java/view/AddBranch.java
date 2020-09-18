@@ -45,7 +45,7 @@ public class AddBranch extends JFrame {
 
 	public AddBranch(int type, String id, AddDepartment fm, BranchManager bm, int index) {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 278);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -141,6 +141,7 @@ public class AddBranch extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 		firstLoad();
+		
 	}
 	
 	protected void firstLoad() {

@@ -72,7 +72,7 @@ public class AddProject extends JFrame {
 	private JLabel lblTitle;
 
 	public AddProject(int type, String id, ProjectManager pm, int indexParent) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 615, 398);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

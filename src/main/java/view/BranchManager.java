@@ -66,7 +66,7 @@ public class BranchManager extends JInternalFrame {
 	public BranchManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
-		setBounds(0, 0, 1000, 475);
+		setBounds(-15, -27, 1030, 505);
 		
 		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
@@ -139,24 +139,24 @@ public class BranchManager extends JInternalFrame {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnLoadAll, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(txtFilter, 319, 319, 319)
-					.addGap(91))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1002, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 977, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(31, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE)
+							.addContainerGap())
+						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1002, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnLoadAll, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(txtFilter, 319, 319, 319)
+							.addContainerGap(91, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -172,7 +172,7 @@ public class BranchManager extends JInternalFrame {
 						.addComponent(btnAdd)
 						.addComponent(btnLoadAll))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 371, GroupLayout.PREFERRED_SIZE))
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 386, Short.MAX_VALUE))
 		);
 		
 		table = new JTable();
@@ -190,6 +190,7 @@ public class BranchManager extends JInternalFrame {
 //		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
 //		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
 //		}
+		
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
@@ -202,7 +203,8 @@ public class BranchManager extends JInternalFrame {
 	}
 	
 	protected void btnAddActionPerformed(ActionEvent e) {
-		new AddBranch(1, null, null, this, 0);
+		AddBranch fab = new AddBranch(1, null, null, this, 0);
+		fab.setVisible(true);
 	}
 	
 	protected void btnEditActionPerformed(ActionEvent e) {

@@ -71,7 +71,7 @@ public class Sys_FrameLoadProject extends JFrame {
 
 	public Sys_FrameLoadProject() {}
 	public Sys_FrameLoadProject(ProjectManager pm, CurrentUser cuser) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 649, 398);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
