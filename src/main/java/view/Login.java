@@ -196,7 +196,7 @@ public class Login extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		
-		txtUser.setText("user");
+		txtUser.setText("admin");
 		txtPassword.setText("admin");
 		txtPassword.setEchoChar('*');
 	}

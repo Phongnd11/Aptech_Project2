@@ -42,7 +42,7 @@ public class AddBranch extends JFrame {
 	public AddBranch(int type, String id, AddDepartment fm, BranchManager bm, int index) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 278);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -87,28 +87,30 @@ public class AddBranch extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(29, Short.MAX_VALUE)
+					.addGap(11)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnSave)
-							.addGap(33)
-							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-							.addGap(102))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(lblTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblBranchName)
-										.addComponent(lblNewLabel))
-									.addGap(18)
+							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblBranchName)
+								.addComponent(lblNewLabel))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+									.addGap(12)
+									.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+									.addGap(42)
+									.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 80, Short.MAX_VALUE)
+									.addGap(120))
+								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(chkStatus)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 											.addComponent(txtId)
-											.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)))))
-							.addGap(18)))
-					.addGap(18))
+											.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)))
+									.addGap(36))))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -131,7 +133,7 @@ public class AddBranch extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnCancel)
 						.addComponent(btnSave))
-					.addContainerGap(56, Short.MAX_VALUE))
+					.addContainerGap(55, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		firstLoad();

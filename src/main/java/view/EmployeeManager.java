@@ -71,7 +71,7 @@ public class EmployeeManager extends JInternalFrame {
 	private JButton btnLoadAll;
 	private CurrentUser cuser = new CurrentUser();
 	
-	public EmployeeManager() {}
+//	public EmployeeManager() {}
 	public EmployeeManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
@@ -98,14 +98,15 @@ public class EmployeeManager extends JInternalFrame {
 			}
 		});
 		
-		btnLoad = new JButton("Load Active");
+		btnLoad = new JButton("Filter");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLoadActionPerformed(e);
 			}
 		});
 		
-		txtFilter = new JTextField();
+		txtFilter = new JTextField("Search");
+		txtFilter.setForeground(Color.GRAY);
 		txtFilter.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -154,30 +155,39 @@ public class EmployeeManager extends JInternalFrame {
 					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnDelete)
 					.addGap(18)
-					.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
-					.addGap(91))
+					.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 317, GroupLayout.PREFERRED_SIZE)
+					.addGap(106))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1002, Short.MAX_VALUE))
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1014, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 976, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(44, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLoad)
-						.addComponent(btnEdit)
-						.addComponent(btnAdd)
-						.addComponent(btnLoadAll)
-						.addComponent(btnDelete))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblNewLabel)
+					.addGap(6)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnEdit)
+								.addComponent(btnAdd)
+								.addComponent(btnLoadAll)
+								.addComponent(btnDelete)
+								.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnLoad)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 371, GroupLayout.PREFERRED_SIZE))
 		);
 		
@@ -198,8 +208,6 @@ public class EmployeeManager extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
-//		list = new BaoEmployee().getAll(cuser.getUsername(), false);
-//		loadListToTable();
 		new Sys_FrameLoadEmployee(this, cuser).setVisible(true);
 	}
 	protected void btnLoadAllActionPerformed(ActionEvent e) {

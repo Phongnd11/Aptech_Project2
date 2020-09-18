@@ -82,7 +82,7 @@ public class AddEmployee extends JFrame {
 	private EmployeeManager em;
 	private int index;
 
-	public AddEmployee() {}
+//	public AddEmployee() {}
 	public AddEmployee(int type, String id, EmployeeManager em, int index, CurrentUser cuser) {
 		this.type = type;
 		this.id = id;
@@ -91,7 +91,7 @@ public class AddEmployee extends JFrame {
 		this.index = index;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 641, 401);
+		setBounds(100, 100, 620, 401);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -120,43 +120,43 @@ public class AddEmployee extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(30, Short.MAX_VALUE)
+					.addContainerGap(9, Short.MAX_VALUE)
 					.addComponent(blbTitle, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE)
 					.addGap(21))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 593, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(32, Short.MAX_VALUE))
+					.addContainerGap(11, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(180)
 					.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(191, Short.MAX_VALUE))
+					.addContainerGap(170, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(blbTitle, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnSave)
 						.addComponent(btnCancel))
-					.addContainerGap())
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		
 		panel = new JPanel();
 		tabbedPane.addTab("   Profile   ", null, panel, null);
 		
-		lblNewLabel = new JLabel("ID:");
+		lblNewLabel = new JLabel("ID");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		lblNewLabel_2 = new JLabel("Name:");
+		lblNewLabel_2 = new JLabel("Name");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		lblNewLabel_3 = new JLabel("Department:");
+		lblNewLabel_3 = new JLabel("Department");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		lblNewLabel_4 = new JLabel("Position");
@@ -188,26 +188,26 @@ public class AddEmployee extends JFrame {
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(60)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblNewLabel_2)
+					.addGap(45)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(lblNewLabel_9, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblNewLabel_4)
-							.addGap(50))
-						.addComponent(lblNewLabel)
-						.addComponent(lblNewLabel_9)
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(18)))
-					.addGap(34)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+							.addGap(18))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+							.addGap(31))
+						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(chbStatus, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cbxPosition, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(cbxDepartment, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(txtID)
-						.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-						.addComponent(calDate, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(103, Short.MAX_VALUE))
+						.addComponent(cbxPosition, 0, 378, Short.MAX_VALUE)
+						.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+						.addComponent(cbxDepartment, 0, 378, Short.MAX_VALUE)
+						.addComponent(txtID, 378, 378, 378)
+						.addComponent(calDate, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 378, GroupLayout.PREFERRED_SIZE))
+					.addGap(44))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -229,12 +229,12 @@ public class AddEmployee extends JFrame {
 						.addComponent(lblNewLabel_4)
 						.addComponent(cbxPosition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_9)
-						.addComponent(calDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-					.addComponent(chbStatus)
-					.addContainerGap())
+					.addComponent(calDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(13)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(chbStatus)
+						.addComponent(lblNewLabel_9))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -282,32 +282,33 @@ public class AddEmployee extends JFrame {
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(58)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1)
-						.addComponent(lblNewLabel_5)
-						.addComponent(lblNewLabel_6)
-						.addComponent(lblNewLabel_7)
-						.addComponent(lblNewLabel_8)
-						.addComponent(lblNewLabel_10, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
-					.addGap(33)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(cbGender)
-						.addComponent(txtPhone)
+						.addComponent(lblNewLabel_6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblNewLabel_7)
+						.addComponent(lblNewLabel_10, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_8, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(txtSpecialize)
 						.addComponent(txtEducation)
 						.addComponent(txtAddress)
-						.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE))
-					.addGap(141))
+						.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+						.addComponent(txtPhone, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+						.addComponent(cbGender, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(39))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap(12, Short.MAX_VALUE)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(16)
 							.addComponent(lblNewLabel_10, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-							.addGap(11))
+							.addPreferredGap(ComponentPlacement.RELATED))
 						.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+							.addContainerGap(11, Short.MAX_VALUE)
 							.addComponent(cbGender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
@@ -420,6 +421,7 @@ public class AddEmployee extends JFrame {
 		if(type==3) {
 			type=2;
 			btnSave.setText("Save");
+			blbTitle.setText(SetTileFrame.getTitle(this.type, "Employee"));
 			visibleFrame(true);
 		}else {
 			LocalDate datejoin = calDate.getDate() == null ? null : calDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

@@ -59,7 +59,7 @@ public class AddDepartment extends JFrame {
 	private JCheckBox chkStatus;
 	private JLabel lblTitle;
 
-	public AddDepartment() {}
+//	public AddDepartment() {}
 	public AddDepartment(int type, String id, DepartmentManager dm, int index, CurrentUser cuser) {
 		this.type=type;
 		this.id=id;
@@ -111,7 +111,7 @@ public class AddDepartment extends JFrame {
 		chkStatus = new JCheckBox("Status");
 		chkStatus.setVisible(false);
 		
-		lblTitle = new JLabel(SetTileFrame.getTitle(this.type, "Position"));
+		lblTitle = new JLabel(SetTileFrame.getTitle(this.type, "Department"));
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTitle.setForeground(Color.BLUE);
 		
@@ -124,39 +124,37 @@ public class AddDepartment extends JFrame {
 							.addGap(24)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblName, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 									.addGap(34)
 									.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblBranchId, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+									.addComponent(cbBranch, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNew, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblName, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-											.addGap(31)
-											.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGap(18)
-											.addComponent(cbBranch, 0, 251, Short.MAX_VALUE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(btnNew, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-											.addGap(12))
-										.addComponent(chkStatus)))))
+											.addGap(29)
+											.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+											.addGap(50)
+											.addComponent(btnCancel))
+										.addComponent(chkStatus)
+										.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 418, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(16, Short.MAX_VALUE))
+							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)))
+					.addGap(16))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
+					.addGap(27)
 					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-					.addGap(39)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(3)
@@ -179,11 +177,11 @@ public class AddDepartment extends JFrame {
 								.addComponent(btnNew))))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(chkStatus)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnCancel)
-						.addComponent(btnSave))
-					.addGap(26))
+						.addComponent(btnSave)
+						.addComponent(btnCancel))
+					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		firstLoad();

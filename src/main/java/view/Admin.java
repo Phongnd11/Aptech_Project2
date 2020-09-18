@@ -217,7 +217,7 @@ public class Admin extends JFrame {
 		if (i != 1) {
 			panel.setVisible(true);
 			desktopPane_2.removeAll();
-			ProjectManager sub = new ProjectManager();
+			ProjectManager sub = new ProjectManager(cuser);
 			sub.setVisible(true);
 			desktopPane_2.add(sub);
 			i = 1;
@@ -238,11 +238,11 @@ public class Admin extends JFrame {
 
 	protected void btnTransferActionPerformed(ActionEvent e) {
 		if (i != 3) {
-			panel.setVisible(true);
-			desktopPane_2.removeAll();
-			TransferManager sub = new TransferManager();
-			sub.setVisible(true);
-			desktopPane_2.add(sub);
+//			panel.setVisible(true);
+//			desktopPane_2.removeAll();
+//			TransferManager sub = new TransferManager();
+//			sub.setVisible(true);
+//			desktopPane_2.add(sub);
 			i = 3;
 		}
 

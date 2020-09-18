@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import bao.BaoPosition;
 import bao.BaoProject;
 import dao.DaoProject;
+import entity.CurrentUser;
 import entity.GetProject;
 import entity.Position;
 import entity.Project;
@@ -62,10 +63,12 @@ public class ProjectManager extends JInternalFrame {
 	private List<GetProject> list;
 	private int i=0;
 	private JLabel lblNewLabel;
+	
+	private CurrentUser cuser;
 
-	public ProjectManager() {
+	public ProjectManager(CurrentUser cuser) {
 		setBounds(0, 0, 1000, 475);
-		
+		this.cuser=cuser;
 		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -87,7 +90,7 @@ public class ProjectManager extends JInternalFrame {
 			}
 		});
 		
-		btnLoad = new JButton("Load");
+		btnLoad = new JButton("Filter");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLoadActionPerformed(e);
@@ -123,39 +126,40 @@ public class ProjectManager extends JInternalFrame {
 	
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnLoad)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnAdd)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnUpdate)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnDelete)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(321, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE)
-					.addContainerGap())
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+							.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE)
+							.addGap(62))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE)
+							.addContainerGap())))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel)
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAdd)
-						.addComponent(btnUpdate)
-						.addComponent(btnDelete)
 						.addComponent(btnLoad)
+						.addComponent(btnDelete)
+						.addComponent(btnUpdate)
 						.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 366, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 360, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		tblProject = new JTable();
@@ -254,7 +258,7 @@ public class ProjectManager extends JInternalFrame {
     }
     
 	protected void btnLoadActionPerformed(ActionEvent e) {
-		new Sys_FrameLoadProject(this).setVisible(true);
+		new Sys_FrameLoadProject(this, cuser).setVisible(true);
 	}
 
 	private void createPopupMenu() {
