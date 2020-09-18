@@ -12,6 +12,7 @@ import bao.BaoBranch;
 import bao.BaoDepartment;
 import bao.BaoGetComboBox;
 import bao.BaoPosition;
+import bao.BaoSystemInfo;
 import entity.Branch;
 import entity.CurrentUser;
 import entity.Department;
@@ -230,8 +231,21 @@ public class AddDepartment extends JFrame {
 		}
 	}
 	
-	protected void do_btnSave_actionPerformed(ActionEvent e) {
+	private boolean checkInput() {
+		String error ="";
+		error += new BaoSystemInfo().getSysRegex("id", "Id", txtId.getText());
+		error += new BaoSystemInfo().getSysRegex("name", "Name", txtName.getText());
 		
+		if(!error.equals(""))
+			new ResultsMessage(-1,error).showMessage(this);
+			
+		return error.equals("") ? true : false;
+		// return false -- if error
+	}
+	
+	protected void do_btnSave_actionPerformed(ActionEvent e) {
+		if(!checkInput())
+			return;
 		
 		if(type == 1) {
 			ResultsMessage rm = new BaoDepartment().insert(new Department(txtId.getText(), txtName.getText(), ((ComboItem)cbBranch.getSelectedItem()).getId(), true));

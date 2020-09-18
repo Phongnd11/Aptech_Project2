@@ -202,7 +202,7 @@ public class BranchManager extends JInternalFrame {
 	}
 	
 	protected void btnAddActionPerformed(ActionEvent e) {
-		new AddBranch(1, null, null, null, 0);
+		new AddBranch(1, null, null, this, 0);
 	}
 	
 	protected void btnEditActionPerformed(ActionEvent e) {
@@ -268,7 +268,7 @@ public class BranchManager extends JInternalFrame {
 	}
 	
 	 public void addBranchToTable(String id) {
-		 Branch branch = new BaoBranch().getFromId(id);
+		Branch branch = new BaoBranch().getFromId(id);
     	list.add(branch);
     	DefaultTableModel model = (DefaultTableModel) table.getModel();
     	model.addRow(new Object[] {

@@ -10,8 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import bao.BaoBranch;
+import bao.BaoSystemInfo;
 import entity.Branch;
 import helper.SetTileFrame;
+import modal.ResultsMessage;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -109,6 +111,20 @@ public class AddProjectType extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	protected void do_btnSave_actionPerformed(ActionEvent e) {
+		if(!checkInput())
+			return;
 		new BaoBranch().insert(new Branch(txtId.getText(), txtName.getText(), true)).showMessage(this);
 	}
+	private boolean checkInput() {
+		String error ="";
+		error += new BaoSystemInfo().getSysRegex("id","Id" ,txtId.getText());
+		error += new BaoSystemInfo().getSysRegex("name","Name", txtName.getText());
+		
+		if(!error.equals(""))
+			new ResultsMessage(-1,error).showMessage(this);
+			
+		return error.equals("") ? true : false;
+		// return false -- if error
+	}
+	
 }

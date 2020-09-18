@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import bao.BaoGetComboBox;
 import bao.BaoPosition;
 import bao.BaoProject;
+import bao.BaoSystemInfo;
 import entity.GetProject;
 import entity.Position;
 import entity.Project;
@@ -48,10 +49,10 @@ public class AddProject extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JTextField txtAddNameProject;
+	private JTextField txtName;
 	private JComboBox cbDepartment;
 	private JScrollPane scrollPane;
-	private JTextPane txtAddDescription;
+	private JTextPane txtDescription;
 	private JLabel Part;
 	private JLabel lblNewLabel_4;
 	private JTextField txtAddPart;
@@ -105,8 +106,8 @@ public class AddProject extends JFrame {
 		lblNewLabel_2 = new JLabel("Description");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
-		txtAddNameProject = new JTextField();
-		txtAddNameProject.setColumns(10);
+		txtName = new JTextField();
+		txtName.setColumns(10);
 		
 		cbDepartment = new JComboBox();
 		comboBoxSetValue2();
@@ -156,7 +157,7 @@ public class AddProject extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(43)
 					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 418, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(76, Short.MAX_VALUE))
+					.addContainerGap(144, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(57)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -174,20 +175,18 @@ public class AddProject extends JFrame {
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 									.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 									.addComponent(lblNewLabel)
-									.addComponent(txt, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
+									.addComponent(txt, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
 								.addComponent(lblNewLabel_4))
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(cbType, 0, 231, Short.MAX_VALUE)
-								.addComponent(txtAddPart, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-								.addComponent(cbDepartment, 0, 231, Short.MAX_VALUE)
-								.addComponent(txtAddNameProject, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-								.addComponent(calDate, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+								.addComponent(cbType, 0, 374, Short.MAX_VALUE)
+								.addComponent(txtAddPart, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+								.addComponent(cbDepartment, 0, 374, Short.MAX_VALUE)
+								.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+								.addComponent(calDate, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
 								.addComponent(chkStatus)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(txtId, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-									.addGap(4)))))
+								.addComponent(txtId, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE))))
 					.addGap(68))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -201,7 +200,7 @@ public class AddProject extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
-						.addComponent(txtAddNameProject, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1)
@@ -231,8 +230,8 @@ public class AddProject extends JFrame {
 					.addGap(144))
 		);
 		
-		txtAddDescription = new JTextPane();
-		scrollPane.setViewportView(txtAddDescription);
+		txtDescription = new JTextPane();
+		scrollPane.setViewportView(txtDescription);
 		contentPane.setLayout(gl_contentPane);
 		
 		if(this.type!= 1) {
@@ -260,9 +259,9 @@ public class AddProject extends JFrame {
 		Project pro = new BaoProject().getFromID(id);
 		if(pro.getId() != null) {
 			txtId.setText(pro.getId());
-			txtAddNameProject.setText(pro.getName());
+			txtName.setText(pro.getName());
 			cbDepartment.setSelectedIndex(new ListComboItem(listCB2).findIdToIndex(pro.getDepartment_id()));
-			txtAddDescription.setText(pro.getDescription());
+			txtDescription.setText(pro.getDescription());
 			txtAddPart.setText(String.valueOf(pro.getPart()));
 			cbType.setSelectedIndex(new ListComboItem(listCB).findIdToIndex(pro.getProject_type_id()));
 			chkStatus.setSelected(pro.isStatus());
@@ -281,9 +280,9 @@ public class AddProject extends JFrame {
 
 	private void setVisibleFrame(boolean bool) {
 		txtId.setEditable(false);
-		txtAddNameProject.setEnabled(bool);
+		txtName.setEnabled(bool);
 		cbDepartment.setEnabled(bool);
-		txtAddDescription.setEnabled(bool);
+		txtDescription.setEnabled(bool);
 		txtAddPart.setEnabled(bool);
 		cbType.setEnabled(bool);
 		calDate.setEnabled(bool);
@@ -302,19 +301,37 @@ public class AddProject extends JFrame {
 			btnSave.setText("Save");
 			type=2;
 		}else if(type == 1) {
-			ResultsMessage rm = new BaoProject().insert(new Project(txtId.getText(), txtAddNameProject.getText(), ((ComboItem) cbDepartment.getSelectedItem()).getId(),
-					txtAddDescription.getText(),Integer.parseInt(txtAddPart.getText()), ((ComboItem) cbType.getSelectedItem()).getId(), date));
+			if(!checkInput())
+				return;
+			ResultsMessage rm = new BaoProject().insert(new Project(txtId.getText(), txtName.getText(), ((ComboItem) cbDepartment.getSelectedItem()).getId(),
+					txtDescription.getText(),Integer.parseInt(txtAddPart.getText()), ((ComboItem) cbType.getSelectedItem()).getId(), date));
 			if(rm.getNum()>0) {
 				pm.addProjectToTable(txtId.getText());
 			}
 			rm.showMessage(this);
 		}else {
-			ResultsMessage rm = new BaoProject().update(new Project(txtId.getText(), txtAddNameProject.getText(), ((ComboItem) cbDepartment.getSelectedItem()).getId(),
-					txtAddDescription.getText(),Integer.parseInt(txtAddPart.getText()), ((ComboItem) cbType.getSelectedItem()).getId(), date, chkStatus.isSelected()));
+			if(!checkInput())
+				return;
+			ResultsMessage rm = new BaoProject().update(new Project(txtId.getText(), txtName.getText(), ((ComboItem) cbDepartment.getSelectedItem()).getId(),
+					txtDescription.getText(),Integer.parseInt(txtAddPart.getText()), ((ComboItem) cbType.getSelectedItem()).getId(), date, chkStatus.isSelected()));
 			if(rm.getNum()>0) {
 				pm.updateListNonDB(indexParent, id);
 			}
 			rm.showMessage(this);
 		}
 	}
+	
+	private boolean checkInput() {
+		String error ="";
+		error += new BaoSystemInfo().getSysRegex("id", "Id",txtId.getText());
+		error += new BaoSystemInfo().getSysRegex("name", "Name", txtName.getText());
+		error += txtDescription.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("name","Description", txtDescription.getText());
+		
+		if(!error.equals(""))
+			new ResultsMessage(-1,error).showMessage(this);
+			
+		return error.equals("") ? true : false;
+		// return false -- if error
+	}
+	
 }

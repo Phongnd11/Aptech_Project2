@@ -8,17 +8,21 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import bao.BaoBranch;
+import bao.BaoSystemInfo;
 import entity.Branch;
+import entity.SystemRegex;
 import helper.SetTileFrame;
 import modal.ResultsMessage;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.zip.CheckedInputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 
@@ -154,7 +158,23 @@ public class AddBranch extends JFrame {
 			this.setVisible(true);
 	}
 	
+	private boolean checkInput() {
+		String error ="";
+		
+		error += new BaoSystemInfo().getSysRegex("id", "Id ", txtId.getText());
+		error += new BaoSystemInfo().getSysRegex("name", "Name ", txtName.getText());
+	
+		if(!error.equals(""))
+			new ResultsMessage(-1,error).showMessage(this);
+			
+		return error.equals("") ? true : false;
+		// return false -- if error
+	}
+	
 	protected void do_btnSave_actionPerformed(ActionEvent e) {
+		if(!checkInput())
+			return;
+		
 		if(type==1 && frameDepa != null) {
 			Branch branch = new Branch(txtId.getText(),txtName.getText(), true);
 			ResultsMessage rs = new BaoBranch().insert(branch);
@@ -179,6 +199,7 @@ public class AddBranch extends JFrame {
 		}
 		
 	}
+	
 	protected void do_btnCancel_actionPerformed(ActionEvent e) {
 		this.dispose();
 	}

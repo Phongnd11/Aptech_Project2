@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import bao.BaoEmp_info;
 import bao.BaoEmployee;
 import bao.BaoGetComboBox;
+import bao.BaoSystemInfo;
 import entity.CurrentUser;
 import entity.Emp_info;
 import helper.SetTileFrame;
@@ -424,6 +425,8 @@ public class AddEmployee extends JFrame {
 			blbTitle.setText(SetTileFrame.getTitle(this.type, "Employee"));
 			visibleFrame(true);
 		}else {
+			if(!checkInput())
+				return;
 			LocalDate datejoin = calDate.getDate() == null ? null : calDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			String gender = cbGender.getSelectedItem() == null ? null : ((ComboItem) cbGender.getSelectedItem()).getId();
 			if(type==1 || type == 4) {
@@ -442,5 +445,22 @@ public class AddEmployee extends JFrame {
 				rm.showMessage(this);
 			}
 		}	
+	}
+	
+	private boolean checkInput() {
+		String error ="";
+		error += new BaoSystemInfo().getSysRegex("id","Id" ,txtID.getText());
+		error += new BaoSystemInfo().getSysRegex("name","Name", txtName.getText());
+		error += txtAddress.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("name","Address", txtAddress.getText());
+		error += txtEducation.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("name","Education", txtEducation.getText());
+		error += txtEmail.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("email","Email", txtEmail.getText());
+		error += txtPhone.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("phone","Phone", txtPhone.getText());
+		error += txtSpecialize.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("name","Specialize", txtSpecialize.getText());
+		
+		if(!error.equals(""))
+			new ResultsMessage(-1,error).showMessage(this);
+			
+		return error.equals("") ? true : false;
+		// return false -- if error
 	}
 }

@@ -324,6 +324,8 @@ public class AddPosition extends JFrame {
 	}
 	
 	protected void do_btnSave_actionPerformed(ActionEvent e) {
+		if(!checkInput())
+			return;
 		String branch_id = chkBranchAdmin.isSelected() ?  ((ComboItem)cbBranch.getSelectedItem()).getId() : null;
 		String listDepartment = null;
 		if(chkDepartmentAdmin.isSelected()) {
@@ -373,6 +375,18 @@ public class AddPosition extends JFrame {
 				btnSave.setVisible(true);
 			}
 		}
+	}
+	
+	private boolean checkInput() {
+		String error ="";
+		error += new BaoSystemInfo().getSysRegex("id", "Id", txtId.getText());
+		error += new BaoSystemInfo().getSysRegex("name", "Name", txtName.getText());
+		
+		if(!error.equals(""))
+			new ResultsMessage(-1,error).showMessage(this);
+			
+		return error.equals("") ? true : false;
+		// return false -- if error
 	}
 
 }
