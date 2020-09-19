@@ -1,29 +1,32 @@
 package entity;
 
 public class Transfer {
-	private String id;
-	private String id_user;
-	private String name_user;
-	private String oldProject;
-	private String newProject;
-	private String Reason;
-	private boolean Censorship;
-	private boolean user_watch;
-	private boolean status;
+	protected String id;
+	protected String type;
+	protected String employee_id;
+	protected String department_old;
+	protected String department_new;
+	protected String project_old;
+	protected String project_new;
+	protected String description;
+	protected boolean check;
+	protected boolean status;
 	
 	public Transfer() {
 	}
 
-	public Transfer(String id, String id_user, String name_user, String oldProject, String newProject, String reason,
-			boolean censorship, boolean user_watch, boolean status) {
+	public Transfer(String id, String type, String employee_id, String department_old, String department_new,
+			String project_old, String project_new, String description, boolean check, boolean status) {
+		super();
 		this.id = id;
-		this.id_user = id_user;
-		this.name_user = name_user;
-		this.oldProject = oldProject;
-		this.newProject = newProject;
-		Reason = reason;
-		Censorship = censorship;
-		this.user_watch = user_watch;
+		this.type = type;
+		this.employee_id = employee_id;
+		this.department_old = department_old;
+		this.department_new = department_new;
+		this.project_old = project_old;
+		this.project_new = project_new;
+		this.description = description;
+		this.check = check;
 		this.status = status;
 	}
 
@@ -35,60 +38,68 @@ public class Transfer {
 		this.id = id;
 	}
 
-	public String getId_user() {
-		return id_user;
+	public String getType() {
+		return type;
 	}
 
-	public void setId_user(String id_user) {
-		this.id_user = id_user;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getName_user() {
-		return name_user;
+	public String getEmployee_id() {
+		return employee_id;
 	}
 
-	public void setName_user(String name_user) {
-		this.name_user = name_user;
+	public void setEmployee_id(String employee_id) {
+		this.employee_id = employee_id;
 	}
 
-	public String getOldProject() {
-		return oldProject;
+	public String getDepartment_old() {
+		return department_old;
 	}
 
-	public void setOldProject(String oldProject) {
-		this.oldProject = oldProject;
+	public void setDepartment_old(String department_old) {
+		this.department_old = department_old;
 	}
 
-	public String getNewProject() {
-		return newProject;
+	public String getDepartment_new() {
+		return department_new;
 	}
 
-	public void setNewProject(String newProject) {
-		this.newProject = newProject;
+	public void setDepartment_new(String department_new) {
+		this.department_new = department_new;
 	}
 
-	public String getReason() {
-		return Reason;
+	public String getProject_old() {
+		return project_old;
 	}
 
-	public void setReason(String reason) {
-		Reason = reason;
+	public void setProject_old(String project_old) {
+		this.project_old = project_old;
 	}
 
-	public boolean isCensorship() {
-		return Censorship;
+	public String getProject_new() {
+		return project_new;
 	}
 
-	public void setCensorship(boolean censorship) {
-		Censorship = censorship;
+	public void setProject_new(String project_new) {
+		this.project_new = project_new;
 	}
 
-	public boolean isUser_watch() {
-		return user_watch;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setUser_watch(boolean user_watch) {
-		this.user_watch = user_watch;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public boolean isCheck() {
+		return check;
+	}
+
+	public void setCheck(boolean check) {
+		this.check = check;
 	}
 
 	public boolean isStatus() {
@@ -101,13 +112,9 @@ public class Transfer {
 
 	@Override
 	public String toString() {
-		return "Transfer [id=" + id + ", id_user=" + id_user + ", name_user=" + name_user + ", oldProject=" + oldProject
-				+ ", newProject=" + newProject + ", Reason=" + Reason + ", Censorship=" + Censorship + ", user_watch="
-				+ user_watch + ", status=" + status + "]";
+		return "Transfer [id=" + id + ", type=" + type + ", employee_id=" + employee_id + ", department_old="
+				+ department_old + ", department_new=" + department_new + ", project_old=" + project_old
+				+ ", project_new=" + project_new + ", description=" + description + ", check=" + check + ", status="
+				+ status + "]";
 	}
-	
-
-
-	
-
 }

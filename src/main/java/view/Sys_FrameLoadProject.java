@@ -272,7 +272,7 @@ public class Sys_FrameLoadProject extends JFrame {
 
 		List<GetProject> list = new BaoProject().getAllProject(txtId.getText(), chkStatus.isSelected(), 
 				((ComboItem) cbType.getSelectedItem()).getId() , ((ComboItem) cbDepartment.getSelectedItem()).getId(), 
-				((ComboItem) cbBranch.getSelectedItem()).getId(), txtProName.getText(), date1, date2);
+				((ComboItem) cbBranch.getSelectedItem()).getId(), txtProName.getText(), date1, date2, cuser.getUsername());
 		if(list.isEmpty()) {
 			new ResultsMessage(0,"No result!").showMessage(this);
 		} else {

@@ -14,9 +14,11 @@ import javax.swing.table.DefaultTableModel;
 
 import bao.BaoBranch;
 import bao.BaoProject;
+import bao.BaoProject_type;
 import entity.Branch;
 import entity.CurrentUser;
 import entity.GetProject;
+import entity.Project_type;
 import modal.ResultsMessage;
 
 import java.awt.event.ActionListener;
@@ -45,7 +47,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.FocusAdapter;
 
-public class BranchManager extends JInternalFrame {
+public class ProjectTypeManager extends JInternalFrame {
 	private JButton btnAdd;
 	private JButton btnEdit;
 	private JButton btnDelete;
@@ -59,11 +61,11 @@ public class BranchManager extends JInternalFrame {
 	private JMenuItem mntmDelete;
 	private JMenuItem mntmReload;
 	private int i;
-	private List<Branch> list = new ArrayList<Branch>();
+	private List<Project_type> list = new ArrayList<Project_type>();
 	private JButton btnLoadAll;
 	private CurrentUser cuser; // = new CurrentUser();
 	
-	public BranchManager(CurrentUser cuser) {
+	public ProjectTypeManager(CurrentUser cuser) {
 		
 		this.cuser = cuser;
 		setBounds(-15, -27, 1030, 505);
@@ -89,7 +91,7 @@ public class BranchManager extends JInternalFrame {
 			}
 		});
 		
-		btnLoad = new JButton("Branch Active");
+		btnLoad = new JButton("Load Active");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLoadActionPerformed(e);
@@ -122,7 +124,7 @@ public class BranchManager extends JInternalFrame {
 		
 		scrollPane = new JScrollPane();
 		
-		lblNewLabel = new JLabel("Branch Manager");
+		lblNewLabel = new JLabel("Project Type Manager");
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -194,17 +196,16 @@ public class BranchManager extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
-		list = new BaoBranch().getAll(cuser.getUsername(), false);
+		list = new BaoProject_type().getall(false);
 		loadListToTable();
 	}
 	protected void btnLoadAllActionPerformed(ActionEvent e) {
-		list = new BaoBranch().getAll(cuser.getUsername(), true);
+		list = new BaoProject_type().getall(true);
 		loadListToTable();
 	}
 	
 	protected void btnAddActionPerformed(ActionEvent e) {
-		AddBranch fab = new AddBranch(1, null, null, this, 0);
-		fab.setVisible(true);
+		new AddProjectType(1, null, this, 0,cuser).setVisible(true);
 	}
 	
 	protected void btnEditActionPerformed(ActionEvent e) {
@@ -213,7 +214,7 @@ public class BranchManager extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-			new AddBranch(2,(String) table.getValueAt(row, 1) , null, this, (Integer) table.getValueAt(row, 0) -1);
+			new AddProjectType(2, (String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser).setVisible(true);
 		}
 	}
 	
@@ -229,7 +230,8 @@ public class BranchManager extends JInternalFrame {
 				String id = (String) table.getValueAt(row, 1);
 				int confirm = JOptionPane.showConfirmDialog(this, "Confirm delete ID: " + id, "Confirm", JOptionPane.YES_NO_OPTION);
 				if(confirm == JOptionPane.YES_OPTION){
-					ResultsMessage rm = new BaoBranch().delete(id);
+					
+					ResultsMessage rm = new BaoProject_type().delete(id);
 					int index = (int) table.getValueAt(row, 0);
 					rm.showMessage(null);
 					if(rm.getNum() == 2)
@@ -256,31 +258,31 @@ public class BranchManager extends JInternalFrame {
 		defaultTable.addColumn("Status");
 		i=0;
 		
-		for(Branch branch : list) {
+		for(Project_type pType : list) {
 			defaultTable.addRow(new Object[] {
-				++i, branch.getId(), branch.getName(), branch.getStatus()
+				++i, pType.getId(), pType.getName(), pType.isStatus()
 			});
 		}
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(200);
-		table.getColumnModel().getColumn(2).setPreferredWidth(400);
-		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		table.getColumnModel().getColumn(1).setPreferredWidth(70);
+		table.getColumnModel().getColumn(2).setPreferredWidth(90);
+		table.getColumnModel().getColumn(3).setPreferredWidth(150);
 		createPopupMenu();
 	}
 	
-	 public void addBranchToTable(String id) {
-		Branch branch = new BaoBranch().getFromId(id);
-    	list.add(branch);
+	 public void addToTable(String id) {
+		 Project_type pType = new BaoProject_type().getfromId(id);
+    	list.add(pType);
     	DefaultTableModel model = (DefaultTableModel) table.getModel();
     	model.addRow(new Object[] {
-    			++i, branch.getId(), branch.getName(), branch.getStatus()
+    			++i, pType.getId(), pType.getName(), pType.isStatus()
 		});
 	 }
 	 
 	public void updateListNonDB(int index, String id) {
-		Branch branch = new BaoBranch().getFromId(id);
-		list.set(index, branch);
+		Project_type pType = new BaoProject_type().getfromId(id);
+		list.set(index, pType);
 		loadListToTable();
 	}
 	
@@ -355,7 +357,7 @@ public class BranchManager extends JInternalFrame {
         Point point = e.getPoint();
         int row = table.rowAtPoint(point);
         if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-        	new AddBranch(2,(String) table.getValueAt(row, 1) , null, this, (Integer) table.getValueAt(row, 0) -1);
+        	new AddProjectType(2, (String) table.getValueAt(row, 1), this, (Integer) table.getValueAt(row, 0) -1, cuser).setVisible(true);
         }
 	}
 	

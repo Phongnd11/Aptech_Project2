@@ -7,8 +7,6 @@ import entity.Project_type;
 import modal.ResultsMessage;
 
 public class BaoProject_type {
-	ResultsMessage rsmess = new ResultsMessage();
-	
 	public Project_type getfromId(String id) {
 		return new DaoProject_type().getfromId(id);
 	}

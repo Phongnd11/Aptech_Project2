@@ -22,11 +22,11 @@ public class DaoProject {
 	ResultsMessage rsmess = new ResultsMessage();
 	List<GetProject> list = new ArrayList<GetProject>();
 	
-	public GetProject getGetProject(String id, boolean getall){
+	public GetProject getGetProject(String id, boolean getall, String userLoginId){
 		GetProject getPro = new GetProject();
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_project(?,?,?,?,?,?,?,?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_project(?,?,?,?,?,?,?,?,?,?)}")
 			)
 		{
 			cs.setBoolean(1, false);
@@ -38,6 +38,8 @@ public class DaoProject {
 			cs.setNString(7, null);
 			cs.setDate(8, null);
 			cs.setDate(9, null);
+			cs.setString(10, userLoginId);
+			
 			cs.executeQuery();
 			ResultSet rs = cs.getResultSet();
 			rs.next();
@@ -59,10 +61,10 @@ public class DaoProject {
 		return getPro;
 	}
 	
-	public List<GetProject> getAllProject(boolean firtLoad, String id, boolean getall, String type_id, String department_id, String branch_id, String name, LocalDate date1, LocalDate date2){
+	public List<GetProject> getAllProject(boolean firtLoad, String id, boolean getall, String type_id, String department_id, String branch_id, String name, LocalDate date1, LocalDate date2, String userLoginId){
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_project(?,?,?,?,?,?,?,?,?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_project(?,?,?,?,?,?,?,?,?,?)}")
 			)
 		{
 			
@@ -78,6 +80,7 @@ public class DaoProject {
 			cs.setString(7, name);
 			cs.setDate(8,(java.sql.Date) date01);
 			cs.setDate(9,(java.sql.Date) date02);
+			cs.setString(10, userLoginId);
 			
 			cs.executeQuery();
 			ResultSet rs = cs.getResultSet();
@@ -194,9 +197,10 @@ public class DaoProject {
 	}
 	
 	public ResultsMessage delete(String id) {
+		
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_project_delete(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_project_delete(?,?)}")
 			)
 		{
 			cs.setString(1, id);

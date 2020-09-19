@@ -19,13 +19,14 @@ public class DaoProject_type {
 	
 	public Project_type getfromId(String id) {
 		Project_type type = new Project_type();
-		String sql = "SELECT * FROM Position WHERE id ='"+ id + "'";
+		String sql = "SELECT * FROM project_type WHERE id ='"+ id + "'";
 		try (
 				Connection con = DatabaseConnect.getConnection();
 				var stmt = con.createStatement();
 				var resultSet = stmt.executeQuery(sql);
 				)
 		{
+			resultSet.next();
 			type.setId(resultSet.getString("id"));
 			type.setName(resultSet.getNString("name"));
 			type.setStatus(resultSet.getBoolean("status"));
@@ -38,14 +39,14 @@ public class DaoProject_type {
 	public List<Project_type> getall(boolean status) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_position(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_project_type(?)}")
 				)
 		{
 			cs.setBoolean(1, status);
 			cs.executeQuery();
 			ResultSet resultSet = cs.getResultSet();
 			while(resultSet.next()) {
-				list.add(new Project_type(resultSet.getString("id"), resultSet.getNString("name"), resultSet.getBoolean("status")));
+				list.add(new Project_type(resultSet.getString("id"), resultSet.getString("name"), resultSet.getBoolean("status")));
 			}
 		} catch (Exception e) {
 			rsmess = new ResultsMessage(-1,e.getMessage());
@@ -88,7 +89,7 @@ public class DaoProject_type {
 	public ResultsMessage delete(String id) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_project_type_delete(?)}")
+				CallableStatement cs = con.prepareCall("{call sproc_project_type_delete(?,?)}")
 			)
 		{
 			cs.setString(1, id);

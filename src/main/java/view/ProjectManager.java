@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 
+import bao.BaoBranch;
 import bao.BaoPosition;
 import bao.BaoProject;
 import dao.DaoProject;
@@ -233,13 +234,13 @@ public class ProjectManager extends JInternalFrame {
 	}
 	
 	public void updateListNonDB(int index, String id) {
-		GetProject getPro = new BaoProject().getGProjectFromID(id, false);
+		GetProject getPro = new BaoProject().getGProjectFromID(id, true, cuser.getUsername());
 		list.set(index, getPro);
 		loadListToTable();
 	}
 	
     public void addProjectToTable(String id) {
-    	GetProject pro = new BaoProject().getGProjectFromID(id, false);
+    	GetProject pro = new BaoProject().getGProjectFromID(id, false, cuser.getUsername());
     	list.add(pro);
     	DefaultTableModel model = (DefaultTableModel) tblProject.getModel();
     	model.addRow(new Object[] {
@@ -249,7 +250,7 @@ public class ProjectManager extends JInternalFrame {
     }
 
     protected void firtLoad() {
-		list = new BaoProject().getAllProjectFirt(false);
+		list = new BaoProject().getAllProjectFirt(false, cuser.getUsername());
 		loadListToTable();
 	}
 	
@@ -341,12 +342,12 @@ public class ProjectManager extends JInternalFrame {
         Point point = e.getPoint();
         int row = table.rowAtPoint(point);
         if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-        	new AddProject(3, (String) tblProject.getValueAt(row, 1), this, (Integer) tblProject.getValueAt(row, 0) -1 );
+        	new AddProject(3, (String) tblProject.getValueAt(row, 1), this, (Integer) tblProject.getValueAt(row, 0) -1, cuser);
         }
 	}
     
 	protected void btnAddActionPerformed(ActionEvent e) {
-		new AddProject(1, null, this, 0).setVisible(true);
+		new AddProject(1, null, this, 0, cuser).setVisible(true);
 	}
 	
 	protected void btnViewActionPerformed(ActionEvent e) {
@@ -354,7 +355,7 @@ public class ProjectManager extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-			new AddProject(3, (String) tblProject.getValueAt(row, 1), this, 0);
+			new AddProject(3, (String) tblProject.getValueAt(row, 1), this, 0, cuser);
 		}
 	}
 	
@@ -363,7 +364,7 @@ public class ProjectManager extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-			new AddProject(2, (String) tblProject.getValueAt(row, 1), this, (Integer) tblProject.getValueAt(row, 0) -1);
+			new AddProject(2, (String) tblProject.getValueAt(row, 1), this, (Integer) tblProject.getValueAt(row, 0) -1, cuser);
 		}
 	}
 	
@@ -373,15 +374,18 @@ public class ProjectManager extends JInternalFrame {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
 			String id = (String) tblProject.getValueAt(row, 1);
-			int index = (int) tblProject.getValueAt(row, 0);
 			int confirm = JOptionPane.showConfirmDialog(this, "Confirm delete ID: " + id, "Confirm", JOptionPane.YES_NO_OPTION);
 			if(confirm == JOptionPane.YES_OPTION){
 				ResultsMessage rm = new BaoProject().delete(id);
+				int index = (int) tblProject.getValueAt(row, 0);
 				rm.showMessage(null);
 				if(rm.getNum() == 2)
 					updateListNonDB(index -1, id);
-				if(rm.getNum() == 1)
-					btnLoadActionPerformed(e);
+				if(rm.getNum() == 1) {
+					list.remove(index-1);
+					loadListToTable();
+				}
+					
 			}
 		}
 	}

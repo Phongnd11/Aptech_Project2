@@ -279,7 +279,7 @@ public class PositionManager extends JInternalFrame {
     	list.add(po);
     	DefaultTableModel model = (DefaultTableModel) table.getModel();
     	model.addRow(new Object[] {
-    			++i, po.getId(), po.getName(),po.getBranch_id(), po.isStatus()
+    			++i, po.getId(), po.getName(), po.getBranch_id(),po.getListBranch(),po.getListDepartment(), po.isStatus()
 		});
 	 }
 	 

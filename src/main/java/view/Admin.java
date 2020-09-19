@@ -78,8 +78,11 @@ public class Admin extends JFrame {
 	private int i = 0;
 	private JButton btnDepartment;
 	private CurrentUser cuser = new CurrentUser();
+	private JButton btnProjectType;
+	private JButton btnDepartTransfer;
+	private JButton btnUserLogin;
 
-	public Admin() {}
+//	public Admin() {}
 	public Admin(CurrentUser cuser) {
 		this.cuser=cuser;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,11 +116,11 @@ public class Admin extends JFrame {
 		lblNewLabel_6.setBounds(21, 21, 147, 32);
 		desktopPane_1.add(lblNewLabel_6);
 
-		lblNewLabel_7 = new JLabel("Branch:");
+		lblNewLabel_7 = new JLabel("");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_7.setForeground(new Color(255, 255, 255));
-		lblNewLabel_7.setBounds(0, 64, 981, 46);
+		lblNewLabel_7.setBounds(0, 64, 1080, 46);
 		desktopPane_1.add(lblNewLabel_7);
 
 		panel = new JPanel();
@@ -139,6 +142,7 @@ public class Admin extends JFrame {
 		lblBackground2.setIcon(new ImageIcon(imgbg2));
 		lblBackground2.setBounds(0, 0, 1080, 622);
 		desktopPane_1.add(lblBackground2);
+		
 
 		lblLogo = new JLabel("New label");
 		Image imglogo = new ImageIcon(this.getClass().getResource("../img/img1.jpg")).getImage().getScaledInstance(180, 160,
@@ -147,16 +151,16 @@ public class Admin extends JFrame {
 		lblLogo.setBounds(10, 11, 180, 160);
 		desktopPane.add(lblLogo);
 
-		btnProject = new JButton("Project management");
+		btnProject = new JButton("Project Management");
 		btnProject.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnProjectActionPerformed(e);
 			}
 		});
-		btnProject.setBounds(0, 441, 204, 50);
+		btnProject.setBounds(0, 383, 204, 50);
 		desktopPane.add(btnProject);
 
-		btnStaff = new JButton("Employee manager");
+		btnStaff = new JButton("Employee Manager");
 		btnStaff.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnStaffActionPerformed(e);
@@ -171,7 +175,7 @@ public class Admin extends JFrame {
 				btnTransferActionPerformed(e);
 			}
 		});
-		btnTransfer.setBounds(0, 391, 204, 50);
+		btnTransfer.setBounds(0, 439, 204, 50);
 		desktopPane.add(btnTransfer);
 
 		btnPosition = new JButton("Position Manager");
@@ -181,7 +185,16 @@ public class Admin extends JFrame {
 			}
 		});
 		
-		btnPosition.setBounds(0, 293, 204, 50);
+		btnProjectType = new JButton("Project Type Management");
+		btnProjectType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnProjectTypeActionPerformed(e);
+			}
+		});
+		btnProjectType.setBounds(0, 334, 204, 50);
+		desktopPane.add(btnProjectType);
+		
+		btnPosition.setBounds(0, 231, 204, 50);
 		desktopPane.add(btnPosition);
 
 		btnBranch = new JButton("Branch Manager");
@@ -197,12 +210,31 @@ public class Admin extends JFrame {
 				btnDepartmentActionPerformed(e);
 			}
 		});
-		btnDepartment.setBounds(0, 342, 204, 50);
+		btnDepartment.setBounds(0, 285, 204, 50);
 		desktopPane.add(btnDepartment);
 		
-		btnBranch.setBounds(0, 243, 204, 50);
+		btnBranch.setBounds(0, 183, 204, 50);
 		desktopPane.add(btnBranch);
 
+		btnDepartTransfer = new JButton("Department Transfer");
+		btnDepartTransfer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnDepartTransferActionPerformed(e);
+			}
+		});
+		btnDepartTransfer.setBounds(0, 540, 204, 50);
+		desktopPane.add(btnDepartTransfer);
+		
+		
+		btnUserLogin = new JButton("New button");
+		btnUserLogin.setBounds(932, 21, 117, 29);
+		desktopPane_1.add(btnUserLogin);
+		btnUserLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnUserLoginActionPerformed(e);
+			}
+		});
+		
 		lblBg1 = new JLabel("New label");
 		Image imgBg1 = new ImageIcon(this.getClass().getResource("../img/bg3.jpg")).getImage().getScaledInstance(700, 717,
 				Image.SCALE_DEFAULT);
@@ -211,8 +243,44 @@ public class Admin extends JFrame {
 		desktopPane.add(lblBg1);
 		
 		contentPane.setLayout(gl_contentPane);
+		showHide();
 	}
 
+	private void showHide() {
+		if(cuser.isAdmin()) {
+			lblNewLabel_7.setText("Administrator: "+ cuser.getUsername());
+		} else if(cuser.getListBranch()!=null) {
+			loadAdminBranch();
+		} else if(cuser.getListDepartment()!=null) {
+			loadAdminDepartment();
+		} else if(cuser.getListProject()!=null) {
+			loadAdminProject();
+		}
+	}
+	
+	private void loadAdminBranch() {
+		btnBranch.setEnabled(false);
+		lblNewLabel_7.setText("Admin: " + cuser.getUsername() + " - List Branch: " + cuser.getListBranch());
+	}
+	
+	private void loadAdminDepartment() {
+		btnBranch.setEnabled(false);
+		btnDepartment.setEnabled(false);
+		btnPosition.setEnabled(false);
+		lblNewLabel_7.setText("Admin: " + cuser.getUsername() + " - List Department: " + cuser.getListDepartment());
+	}
+	
+	private void loadAdminProject() {
+		btnBranch.setEnabled(false);
+		btnDepartment.setEnabled(false);
+		btnPosition.setEnabled(false);
+		btnProjectType.setEnabled(false);
+		btnStaff.setEnabled(false);
+		btnDepartTransfer.setEnabled(false);
+		btnTransfer.setEnabled(false);
+		lblNewLabel_7.setText("Admin: " + cuser.getUsername() + " - List Project : " + cuser.getListProject());
+	}
+	
 	protected void btnProjectActionPerformed(ActionEvent e) {
 		if (i != 1) {
 			panel.setVisible(true);
@@ -278,5 +346,28 @@ public class Admin extends JFrame {
 			desktopPane_2.add(sub);
 			i = 6;
 		}
+	}
+	protected void btnProjectTypeActionPerformed(ActionEvent e) {
+		if (i != 7) {
+			panel.setVisible(true);
+			desktopPane_2.removeAll();
+			ProjectTypeManager sub = new ProjectTypeManager(cuser);
+			sub.setVisible(true);
+			desktopPane_2.add(sub);
+			i = 7;
+		}
+	}
+	protected void btnDepartTransferActionPerformed(ActionEvent e) {
+		if (i != 8) {
+			panel.setVisible(true);
+			desktopPane_2.removeAll();
+			TransferDepartment sub = new TransferDepartment(cuser);
+			sub.setVisible(true);
+			desktopPane_2.add(sub);
+			i = 8;
+		}
+	}
+	protected void btnUserLoginActionPerformed(ActionEvent e) {
+		
 	}
 }

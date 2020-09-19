@@ -11,6 +11,7 @@ import bao.BaoGetComboBox;
 import bao.BaoPosition;
 import bao.BaoProject;
 import bao.BaoSystemInfo;
+import entity.CurrentUser;
 import entity.GetProject;
 import entity.Position;
 import entity.Project;
@@ -68,10 +69,10 @@ public class AddProject extends JFrame {
 	private JCheckBox chkStatus;
 	private ProjectManager pm;
 	private int indexParent;
-	private String userLoginID;
 	private JLabel lblTitle;
+	private CurrentUser cuser;
 
-	public AddProject(int type, String id, ProjectManager pm, int indexParent) {
+	public AddProject(int type, String id, ProjectManager pm, int indexParent, CurrentUser cuser) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 615, 398);
 		contentPane = new JPanel();
@@ -82,6 +83,7 @@ public class AddProject extends JFrame {
 		this.id=id;
 		this.pm=pm;
 		this.indexParent=indexParent;
+		this.cuser=cuser;
 		
 		btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
@@ -237,19 +239,21 @@ public class AddProject extends JFrame {
 		if(this.type!= 1) {
 			loadFrameWhenEdit();
 		}else {
+			txtAddPart.setText("0");
+			txtAddPart.setEditable(false);
 			this.setVisible(true);
 		}
 	}
 	
 	private void comboBoxSetValue() {
-		listCB = new BaoGetComboBox().getList("ProjectType", userLoginID);
+		listCB = new BaoGetComboBox().getList("ProjectType", cuser.getUsername());
 		for (ComboItem item :listCB) {
 			cbType.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
 	}
 	
 	private void comboBoxSetValue2() {
-		listCB2 = new BaoGetComboBox().getList("Department", userLoginID);
+		listCB2 = new BaoGetComboBox().getList("Department", cuser.getUsername());
 		for (ComboItem item :listCB2) {
 			cbDepartment.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -304,7 +308,7 @@ public class AddProject extends JFrame {
 			if(!checkInput())
 				return;
 			ResultsMessage rm = new BaoProject().insert(new Project(txtId.getText(), txtName.getText(), ((ComboItem) cbDepartment.getSelectedItem()).getId(),
-					txtDescription.getText(),Integer.parseInt(txtAddPart.getText()), ((ComboItem) cbType.getSelectedItem()).getId(), date));
+					txtDescription.getText(),Integer.parseInt(txtAddPart.getText()), ((ComboItem) cbType.getSelectedItem()).getId(), date, true));
 			if(rm.getNum()>0) {
 				pm.addProjectToTable(txtId.getText());
 			}
@@ -325,7 +329,7 @@ public class AddProject extends JFrame {
 		String error ="";
 		error += new BaoSystemInfo().getSysRegex("id", "Id",txtId.getText());
 		error += new BaoSystemInfo().getSysRegex("name", "Name", txtName.getText());
-		error += txtDescription.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("name","Description", txtDescription.getText());
+//		error += txtDescription.getText().equals("") ? "" : new BaoSystemInfo().getSysRegex("name","Description", txtDescription.getText());
 		
 		if(!error.equals(""))
 			new ResultsMessage(-1,error).showMessage(this);

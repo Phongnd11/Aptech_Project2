@@ -173,9 +173,9 @@ public class AddEmployee extends JFrame {
 		chbStatus.setVisible(false);
 		
 		cbxDepartment = new JComboBox();
-		comboBoxSetValue1();
 		
 		cbxPosition = new JComboBox();
+		comboBoxSetValue1();
 		comboBoxSetValue2();
 		
 		lblNewLabel_9 = new JLabel("Date Join");
@@ -340,6 +340,7 @@ public class AddEmployee extends JFrame {
 		}else {
 			this.setVisible(true);
 		}
+		
 	}
 	
 	private void LoadFrameWhenEdit() {
@@ -399,6 +400,7 @@ public class AddEmployee extends JFrame {
 	
 	private void comboBoxSetValue1() {
 		listCBDepartment = new BaoGetComboBox().getList("Department", cuser.getUsername());
+//		cbxDepartment.addItem(new ComboItem(null, "Empty"));
 		for (ComboItem item :listCBDepartment) {
 			cbxDepartment.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -406,6 +408,7 @@ public class AddEmployee extends JFrame {
 	
 	private void comboBoxSetValue2() {
 		listCBPosition = new BaoGetComboBox().getList("Position", cuser.getUsername());
+//		cbxPosition.addItem(new ComboItem(null, "Empty"));
 		for (ComboItem item :listCBPosition) {
 			cbxPosition.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -413,6 +416,7 @@ public class AddEmployee extends JFrame {
 	
 	private void comboBoxSetValue3() {
 		listGender = new BaoGetComboBox().getList("Gender", cuser.getUsername());
+		
 		for (ComboItem item :listGender) {
 			cbGender.addItem(new ComboItem(item.getId(), item.getValue()));
 		}
@@ -430,14 +434,18 @@ public class AddEmployee extends JFrame {
 			LocalDate datejoin = calDate.getDate() == null ? null : calDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			String gender = cbGender.getSelectedItem() == null ? null : ((ComboItem) cbGender.getSelectedItem()).getId();
 			if(type==1 || type == 4) {
-				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), ((ComboItem) cbxDepartment.getSelectedItem()).getId() , ((ComboItem) cbxPosition.getSelectedItem()).getId(), true,
+				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(),
+						cbxDepartment.getSelectedIndex() == -1 ? null :((ComboItem) cbxDepartment.getSelectedItem()).getId() ,
+						cbxPosition.getSelectedIndex() == -1 ? null :((ComboItem) cbxPosition.getSelectedItem()).getId(), true,
 						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender, null);
 				ResultsMessage rm = new BaoEmployee().insert(empV);
 				if(rm.getNum()>0 && type!=4)
 					em.addNewToTable(empV.getId());
 				rm.showMessage(this);
 			} else {
-				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), ((ComboItem) cbxDepartment.getSelectedItem()).getId() , ((ComboItem) cbxPosition.getSelectedItem()).getId(), chbStatus.isSelected(),
+				EmployeeView empV = new EmployeeView(txtID.getText(), txtName.getText(), 
+						cbxDepartment.getSelectedIndex() == -1 ? null :((ComboItem) cbxDepartment.getSelectedItem()).getId() ,
+						cbxPosition.getSelectedIndex() == -1 ? null :((ComboItem) cbxPosition.getSelectedItem()).getId(), chbStatus.isSelected(),
 						txtAddress.getText(), txtEducation.getText(), txtSpecialize.getText(), txtPhone.getText(), txtEmail.getText(), datejoin, gender, null);
 				ResultsMessage rm = new BaoEmployee().update(empV);
 				if(rm.getNum()>0)
