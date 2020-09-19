@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import common.DatabaseConnect;
+import entity.Department;
 import entity.GetProject;
 import entity.Project;
 import entity.Transfer;
@@ -85,19 +86,23 @@ public class DaoTransfer {
 		return rsmess;
 	}
 
-	public List<TransferView> getTranferView(String userLoginId, boolean getAll) {
+	public List<TransferView> getTranferView(String employee_id, String department_id, boolean getAll, String userLoginId) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
-				CallableStatement cs = con.prepareCall("{call sproc_get_transferView()}")
+				CallableStatement cs = con.prepareCall("{call sproc_get_transferView(?,?,?,?)}")
 			)
 		{
-//			cs.setString(1, id);
+			cs.setString(1, employee_id);
+			cs.setString(2, department_id);
+			cs.setBoolean(3, getAll);
+			cs.setString(4, userLoginId);
+			
 			cs.executeQuery();
 			ResultSet rs = cs.getResultSet();
 			while(rs.next()) {
 				listView.add(
 						new TransferView(rs.getString("id"), rs.getString("type"), rs.getString("employee_id"), rs.getString("department_old"), rs.getString("department_new"),
-							rs.getString("project_old"), rs.getString("project_new"), rs.getString("description"), rs.getBoolean("check"), rs.getBoolean("status"),
+							rs.getString("project_id_old"), rs.getString("project_id_new"), rs.getString("description"), rs.getBoolean("check"), rs.getBoolean("status"),
 							rs.getString("department_name_old"), rs.getString("department_name_new"),rs.getString("project_name_old"), rs.getString("project_name_new"),
 							rs.getString("employee_name"), rs.getString("type_name"), rs.getDate("date") ==null ? null : rs.getDate("date").toLocalDate())
 						);
@@ -111,18 +116,17 @@ public class DaoTransfer {
 		return listView;
 	}
 	
-	public ResultsMessage insertDepartment(TransferView obj) {
+	public ResultsMessage insertDepartmentTransfer(String id, String oldv, String newv, String description) {
 		try (
 				Connection con = DatabaseConnect.getConnection();
 				CallableStatement cs = con.prepareCall("{call sproc_transfer_department_insert(?,?,?,?)}")
 			)
 		{
 			
-			cs.setString(1, obj.getEmployee_id());
-			cs.setString(2, obj.getDepartment_name_old());
-			cs.setString(3, obj.getDepartment_name_new());
-			cs.setString(4, obj.getDescription());
-					
+			cs.setString(1, id);
+			cs.setString(2, oldv);
+			cs.setString(3, newv);
+			cs.setString(4, description);
 					
 			rsmess = new ResultsMessage(cs.executeUpdate(),"Success!");
 		} catch (Exception e) {
@@ -158,4 +162,24 @@ public class DaoTransfer {
 		}
 		return rsmess;
 	}
+
+	public ResultsMessage dpTransferAccectp(String id, String userLoginId, boolean check) {
+		try (
+				Connection con = DatabaseConnect.getConnection();
+				CallableStatement cs = con.prepareCall("{call sproc_transfer_department_check(?,?,?)}")
+			)
+		{
+			cs.setString(1, id);
+			cs.setString(2, userLoginId);
+			cs.setBoolean(3, check);
+			cs.executeUpdate();
+					
+			rsmess = new ResultsMessage(cs.executeUpdate(),"Success!");
+		} catch (Exception e) {
+			rsmess = new ResultsMessage(-1,e.getMessage());
+		}
+		
+		return rsmess;
+	}
+	
 }

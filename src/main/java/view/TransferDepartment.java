@@ -78,14 +78,14 @@ public class TransferDepartment extends JInternalFrame {
 			}
 		});
 		
-		btnEdit = new JButton("Edit");
+		btnEdit = new JButton("Accept");
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnEditActionPerformed(e);
 			}
 		});
 		
-		btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Don't accpet");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnDeleteActionPerformed(e);
@@ -196,11 +196,10 @@ public class TransferDepartment extends JInternalFrame {
 	}
 	
 	protected void btnLoadActionPerformed(ActionEvent e) {
-		list = new BaoTransfer().getTranferView(cuser.getUsername(), false);
-		loadListToTable();
+		new Sys_FrameLoadTFD(this, cuser).setVisible(true);
 	}
 	protected void btnLoadAllActionPerformed(ActionEvent e) {
-//		list = new BaoTransfer().getTranferView(cuser.getUsername(), false);
+		list = new BaoTransfer().getTranferView(null, null, false, cuser.getUsername());
 		loadListToTable();
 	}
 	
@@ -214,7 +213,19 @@ public class TransferDepartment extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-//			new AddPosition(2,(String) table.getValueAt(row, 1) , cuser, (Integer) table.getValueAt(row, 0) -1, this);
+			int index = (Integer) table.getValueAt(row, 0)- 1;
+			TransferView obj = list.get(index);
+			if(obj.isStatus() == false || obj.isCheck() == true)
+				JOptionPane.showMessageDialog(this, "Job transfer is checked or status id fasle!", "Error", JOptionPane.ERROR_MESSAGE);
+			else {
+				int confirm = JOptionPane.showConfirmDialog(this, "? Accept: " + list.get(index).getEmployee_name()
+						+ "\n" + obj.getDepartment_name_old()+" [Go to] " + obj.getDepartment_name_new()
+						, "Confirm", JOptionPane.YES_NO_OPTION);
+				if(confirm == JOptionPane.YES_OPTION){
+					new BaoTransfer().dpTransferAccectp(list.get(index).getId(), cuser.getUsername(), true).showMessage(null);
+				}
+			}
+			
 		}
 	}
 	
@@ -223,23 +234,24 @@ public class TransferDepartment extends JInternalFrame {
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
-
-			if(!(boolean) table.getValueAt(row, 6)) {
-				JOptionPane.showMessageDialog(this, "Status is fasle!", "Error", JOptionPane.ERROR_MESSAGE);
-			}else {
-				String id = (String) table.getValueAt(row, 1);
-				int confirm = JOptionPane.showConfirmDialog(this, "Confirm delete ID: " + id, "Confirm", JOptionPane.YES_NO_OPTION);
+			int index = (Integer) table.getValueAt(row, 0)- 1;
+			TransferView obj = list.get(index);
+			if(obj.isStatus() == false || obj.isCheck() == true)
+				JOptionPane.showMessageDialog(this, "Job transfer is checked or status id fasle!", "Error", JOptionPane.ERROR_MESSAGE);
+			else {
+				int confirm = JOptionPane.showConfirmDialog(this, "? Don't Accept: " + list.get(index).getEmployee_name()
+						+ "\n" + obj.getDepartment_name_old()+" [Go to] " + obj.getDepartment_name_new()
+						, "Confirm", JOptionPane.YES_NO_OPTION);
 				if(confirm == JOptionPane.YES_OPTION){
-//					ResultsMessage rm = new BaoPosition().delete(id);
-//					int index = (int) table.getValueAt(row, 0);
-//					rm.showMessage(null);
-//					if(rm.getNum() == 2)
-//						updateListFromID(index -1, id);
-//					if(rm.getNum() == 1)
-//						btnLoadActionPerformed(e);
+					new BaoTransfer().dpTransferAccectp(list.get(index).getId(), cuser.getUsername(), false).showMessage(null);
 				}
 			}
 		}
+	}
+	
+	public void loadListToTable(List<TransferView> list){
+		this.list=list;
+		loadListToTable();
 	}
 	
 	private void loadListToTable() {
@@ -256,7 +268,6 @@ public class TransferDepartment extends JInternalFrame {
 //		String project_name_new, String employee_name, String type_name
 		
 		defaultTable.addColumn("#");
-		defaultTable.addColumn("Id");
 		defaultTable.addColumn("Type Name");
 		defaultTable.addColumn("Employee Name");
 		defaultTable.addColumn("Date");
@@ -267,17 +278,18 @@ public class TransferDepartment extends JInternalFrame {
 		i=0;
 		for(TransferView obj : list) {
 			defaultTable.addRow(new Object[] {
-				++i, obj.getId(), obj.getType_name(),obj.getEmployee_name(),obj.getDate(),obj.getDescription(),obj.getDepartment_name_old(),obj.getDepartment_name_new(), obj.isCheck()? "checked" : ""
+				++i, obj.getType_name(),obj.getEmployee_name(),obj.getDate(),obj.getDescription(),obj.getDepartment_name_old(),obj.getDepartment_name_new(), obj.isCheck()? "checked" : ""
 			});
 		}
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-		table.getColumnModel().getColumn(3).setPreferredWidth(100);
-		table.getColumnModel().getColumn(4).setPreferredWidth(150);
-		table.getColumnModel().getColumn(5).setPreferredWidth(300);
-		table.getColumnModel().getColumn(6).setPreferredWidth(50);
+		table.getColumnModel().getColumn(3).setPreferredWidth(200);
+		table.getColumnModel().getColumn(4).setPreferredWidth(200);
+		table.getColumnModel().getColumn(5).setPreferredWidth(200);
+		table.getColumnModel().getColumn(6).setPreferredWidth(200);
+		table.getColumnModel().getColumn(7).setPreferredWidth(70);
 		createPopupMenu();
 	}
 	

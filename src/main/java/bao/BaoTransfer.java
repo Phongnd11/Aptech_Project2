@@ -20,8 +20,8 @@ public class BaoTransfer {
 		return new DaoTransfer().getTransferAdmin(branch, status);
 	};
 	
-	public List<TransferView> getTranferView(String userLoginId, boolean getAll){
-		return new DaoTransfer().getTranferView(userLoginId, getAll);
+	public List<TransferView> getTranferView(String employee_id, String department_id, boolean getAll, String userLoginId){
+		return new DaoTransfer().getTranferView(employee_id,department_id,getAll,userLoginId);
 	}
 	
 	public ResultsMessage insert(String username, String oldProject, String newProject, String reason) {
@@ -32,8 +32,12 @@ public class BaoTransfer {
 		return new DaoTransfer().delete(id);
 	}
 	
-	public ResultsMessage insertDepartment(TransferView obj) {
-		return new DaoTransfer().insertDepartment(obj);
+	public ResultsMessage insertDepartmentT(String id, String oldv, String newv, String description) {
+		return new DaoTransfer().insertDepartmentTransfer(id, oldv, newv, description);
+	}
+	
+	public ResultsMessage dpTransferAccectp(String id, String userLoginId, boolean check) {
+		return new DaoTransfer().dpTransferAccectp(id, userLoginId, check);
 	}
 	
 }

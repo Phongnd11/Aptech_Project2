@@ -70,6 +70,7 @@ public class EmployeeManager extends JInternalFrame {
 	private List<EmployeeView> list = new ArrayList<EmployeeView>();
 	private JButton btnLoadAll;
 	private CurrentUser cuser = new CurrentUser();
+	private JButton btnNewButton;
 	
 //	public EmployeeManager() {}
 	public EmployeeManager(CurrentUser cuser) {
@@ -142,6 +143,13 @@ public class EmployeeManager extends JInternalFrame {
 				btnLoadAllActionPerformed(e);
 			}
 		});
+		
+		btnNewButton = new JButton("Transf..De");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnNewButtonActionPerformed(e);
+			}
+		});
 	
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -149,24 +157,25 @@ public class EmployeeManager extends JInternalFrame {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE)
-							.addGap(20))
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnLoadAll, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 317, GroupLayout.PREFERRED_SIZE)
-								.addGap(106))
-							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1014, Short.MAX_VALUE))))
+						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnLoadAll, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, 274, GroupLayout.PREFERRED_SIZE))
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE))
+							.addGap(20))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -182,12 +191,13 @@ public class EmployeeManager extends JInternalFrame {
 								.addComponent(btnAdd)
 								.addComponent(btnLoadAll)
 								.addComponent(btnDelete)
-								.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(txtFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnNewButton)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnLoad)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
 		);
 		
 		table = new JTable();
@@ -287,11 +297,19 @@ public class EmployeeManager extends JInternalFrame {
 			});
 		}
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(70);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-//		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		table.getColumnModel().getColumn(1).setPreferredWidth(200);
+		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		table.getColumnModel().getColumn(4).setPreferredWidth(200);
+		table.getColumnModel().getColumn(5).setPreferredWidth(200);
+		table.getColumnModel().getColumn(6).setPreferredWidth(200);
+		table.getColumnModel().getColumn(7).setPreferredWidth(200);
+		table.getColumnModel().getColumn(8).setPreferredWidth(200);
+		table.getColumnModel().getColumn(9).setPreferredWidth(200);
+		table.getColumnModel().getColumn(10).setPreferredWidth(200);
+		table.getColumnModel().getColumn(11).setPreferredWidth(50);
+		
 		createPopupMenu();
 	}
 	
@@ -425,4 +443,13 @@ public class EmployeeManager extends JInternalFrame {
 		do_txtFind(e, txtFilter.getText());
 	}
 
+	protected void btnNewButtonActionPerformed(ActionEvent e) {
+		int row = table.getSelectedRow();
+		if(row == -1) {
+			JOptionPane.showMessageDialog(this, "Select Row on table", "Error", JOptionPane.ERROR_MESSAGE);
+		}else {
+			new AddDepartmentTransfer((String) table.getValueAt(row, 1), cuser).setVisible(true);;
+		}
+		
+	}
 }
